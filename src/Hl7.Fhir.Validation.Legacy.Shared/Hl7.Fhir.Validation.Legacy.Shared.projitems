@@ -6,9 +6,11 @@
     <SharedGUID>fb1d197f-11a5-4d46-9357-ac3ac25060c5</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Firely.Legacy.Validator.Shared</Import_RootNamespace>
+    <Import_RootNamespace>Hl7.Fhir.Validation.Legacy.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ConstraintBestPracticesSeverity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\SchemaCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\BaseBucket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\BatchValidationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\BindingDiscriminator.cs" />
@@ -40,7 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Schema\IAssertion.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Schema\InvalidValidationContextException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Schema\IValidatable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Schema\SchemaCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Schema\ValidationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Schema\ValidationOutcome.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\SliceGroupBucket.cs" />

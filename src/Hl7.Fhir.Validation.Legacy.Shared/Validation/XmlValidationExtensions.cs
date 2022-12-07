@@ -25,9 +25,13 @@ namespace Hl7.Fhir.Validation
     /// </summary>
     public static class XmlValidationExtensions
     {
-        private static XmlSchemaSet getSchemaSetFromSettings(Validator v) => v.Settings.XsdSchemaCollection?.MinimalSchemas ??
+        private static XmlSchemaSet getSchemaSetFromSettings(Validator v) => v.Settings.XsdSchemaCollection ??
                             SchemaCollection.ValidationSchemaSet;
 
+        /// <summary>
+        /// Validate an instance serialized in xml, use the instance's type to pick the relevant profile and
+        /// FHIR XSD schema to validate against.
+        /// </summary>
         public static OperationOutcome Validate(this Validator me, XmlReader instance)
         {
             var result = me.ValidatedParseXml(instance, getSchemaSetFromSettings(me), out var poco);
@@ -38,6 +42,10 @@ namespace Hl7.Fhir.Validation
             return result;
         }
 
+        /// <summary>
+        /// Validate an instance serialized in xml against a given set of profiles and the 
+        /// relevant XSD profile from the FHIR specification.
+        /// </summary>
         public static OperationOutcome Validate(this Validator me, XmlReader instance, params string[] definitionUris)
         {
             var result = me.ValidatedParseXml(instance, getSchemaSetFromSettings(me), out var poco);
@@ -48,6 +56,10 @@ namespace Hl7.Fhir.Validation
             return result;
         }
 
+        /// <summary>
+        /// Validate an instance serialized in xml against a given set of profiles and the 
+        /// relevant XSD profile from the FHIR specification.
+        /// </summary>
         public static OperationOutcome Validate(this Validator me, XmlReader instance, StructureDefinition structureDefinition)
         {
             var result = me.ValidatedParseXml(instance, getSchemaSetFromSettings(me), out var poco);
@@ -58,6 +70,10 @@ namespace Hl7.Fhir.Validation
             return result;
         }
 
+        /// <summary>
+        /// Validate an instance serialized in xml against a given set of profiles and the 
+        /// relevant XSD profile from the FHIR specification.
+        /// </summary>
         public static OperationOutcome Validate(this Validator me, XmlReader instance, IEnumerable<StructureDefinition> structureDefinitions)
         {
             var result = me.ValidatedParseXml(instance, getSchemaSetFromSettings(me), out var poco);
@@ -75,7 +91,6 @@ namespace Hl7.Fhir.Validation
 
             try
             {
-
                 if (me.Settings.EnableXsdValidation)
                 {
                     var doc = XDocument.Load(instance, LoadOptions.SetLineInfo);
@@ -97,7 +112,7 @@ namespace Hl7.Fhir.Validation
             {
                 var result = new OperationOutcome();
 
-                instance.Validate(xsdSchemas, (o, args) => { result.AddIssue(ToIssueComponent(args)); });
+                instance.Validate(xsdSchemas, (o, args) => { result.AddIssue(toIssueComponent(args)); });
 
                 return result;
             }
@@ -105,15 +120,14 @@ namespace Hl7.Fhir.Validation
         }
 
 
-        private static OperationOutcome.IssueComponent ToIssueComponent(ValidationEventArgs args)
+        private static OperationOutcome.IssueComponent toIssueComponent(ValidationEventArgs args)
         {
             string message = $".NET Xsd validation {args.Severity}: {args.Message}";
-            string pos = $"line: { args.Exception.LineNumber}, pos: { args.Exception.LinePosition}";
+            string pos = $"line: {args.Exception.LineNumber}, pos: {args.Exception.LinePosition}";
 
-            if (args.Severity == XmlSeverityType.Error)
-                return Issue.XSD_VALIDATION_ERROR.ToIssueComponent(message, pos);
-            else
-                return Issue.XSD_VALIDATION_WARNING.ToIssueComponent(message, pos);
+            return args.Severity == XmlSeverityType.Error
+                ? Issue.XSD_VALIDATION_ERROR.ToIssueComponent(message, pos)
+                : Issue.XSD_VALIDATION_WARNING.ToIssueComponent(message, pos);
         }
     }
 }

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firely.Legacy.Validator", "src\Firely.Legacy.Validator\Firely.Legacy.Validator.csproj", "{D154FD40-4F29-4B29-ACF2-654F3BA3E5F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.R4B", "src\Hl7.Fhir.Validation.Legacy.R4B\Hl7.Fhir.Validation.Legacy.R4B.csproj", "{D154FD40-4F29-4B29-ACF2-654F3BA3E5F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firely.Legacy.Validator.Tests", "src\Firely.Legacy.Validator.Tests\Firely.Legacy.Validator.Tests.csproj", "{AB86FF4E-8A6F-4519-B50E-49726B6F2789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.Tests", "src\Hl7.Fhir.Validation.Legacy.Tests\Hl7.Fhir.Validation.Legacy.Tests.csproj", "{AB86FF4E-8A6F-4519-B50E-49726B6F2789}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Firely.Legacy.Validator.Shared", "src\Firely.Legacy.Validator.Shared\Firely.Legacy.Validator.Shared.shproj", "{FB1D197F-11A5-4D46-9357-AC3AC25060C5}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.Validation.Legacy.Shared", "src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.shproj", "{FB1D197F-11A5-4D46-9357-AC3AC25060C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,7 +31,6 @@ Global
 		SolutionGuid = {0A5A18B3-D1DC-4F60-8764-5698B15822A1}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		src\Firely.Legacy.Validator.Shared\Firely.Legacy.Validator.Shared.projitems*{d154fd40-4f29-4b29-acf2-654f3ba3e5f0}*SharedItemsImports = 5
-		src\Firely.Legacy.Validator.Shared\Firely.Legacy.Validator.Shared.projitems*{fb1d197f-11a5-4d46-9357-ac3ac25060c5}*SharedItemsImports = 13
+		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{d154fd40-4f29-4b29-acf2-654f3ba3e5f0}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

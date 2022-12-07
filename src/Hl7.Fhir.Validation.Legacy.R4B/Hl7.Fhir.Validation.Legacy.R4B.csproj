@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
-	<Import Project="..\Firely.Legacy.Validator.Shared\Firely.Legacy.Validator.Shared.projitems" Label="Shared" />
+	<Import Project="..\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems" Label="Shared" />
 
 	<Import Project="..\firely-net-sdk.props" />
 
@@ -22,6 +22,10 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net452'">
 		<Reference Include="System.Net.Http" />
 		<Reference Include="System.ComponentModel.DataAnnotations" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="fhir-single.zip" LogicalName="fhir-single.zip" />
 	</ItemGroup>
 
 	<ItemGroup>

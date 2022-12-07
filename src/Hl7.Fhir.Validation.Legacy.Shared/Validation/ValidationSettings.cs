@@ -6,47 +6,50 @@
  * available at https://raw.githubusercontent.com/FirelyTeam/firely-net-sdk/master/LICENSE
  */
 
+#nullable enable
+
+using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Specification;
 using Hl7.Fhir.Specification.Snapshot;
 using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Specification.Terminology;
 using Hl7.Fhir.Utility;
 using System;
+using System.Xml.Schema;
 
 namespace Hl7.Fhir.Validation
 {
-    public enum ConstraintBestPracticesSeverity
-    {
-        Warning,
-        Error
-    }
-
-    /// <summary>Configuration settings for the <see cref="Validator"/> class.</summary>
+    /// <summary>
+    /// Configuration settings for the <see cref="Validator"/> class.
+    /// </summary>
     public class ValidationSettings
     {
-        public StructureDefinitionSummaryProvider.TypeNameMapper ResourceMapping { get; set; }
-
-        [Obsolete("Use the CreateDefault() method, as using this static member may cause threading issues.")]
-        public static readonly ValidationSettings Default = new ValidationSettings();
-
-        // Instance fields
-        private SnapshotGeneratorSettings _generateSnapshotSettings = SnapshotGeneratorSettings.CreateDefault();
+        /// <summary>
+        /// The <see cref="StructureDefinitionSummaryProvider.TypeNameMapper"/> used to map instance types encountered in
+        /// <see cref="ITypedElement.InstanceType"/> to canonicals when a profile for these types needs to be retrieved.
+        /// </summary>
+        public StructureDefinitionSummaryProvider.TypeNameMapper? ResourceMapping { get; set; }
 
         /// <summary>
-        /// The resolver to use when references to other resources are encountered in the instance.
+        /// The resolver to use when references or canonicals are encountered.
         /// </summary>
-        public IResourceResolver ResourceResolver { get; set; }
+        /// <remarks>Most of the time this resolver is used when resolving canonicals to profiles or valuesets, 
+        /// but it may also be used to resolve references encountered in instance data. 
+        /// See <see cref="Validator.OnExternalResolutionNeeded"/> for more information.</remarks>
+        public IResourceResolver? ResourceResolver { get; set; }
 
         /// <summary>
         /// The terminology service to use to validate coded instance data.
         /// </summary>
-        public ITerminologyService TerminologyService { get; set; }
+        public ITerminologyService? TerminologyService { get; set; }
 
         /// <summary>
         /// An instance of the FhirPath compiler to use when evaluating constraints
         /// (provide this if you have custom functions included in the symbol table)
         /// </summary>
-        public Hl7.FhirPath.FhirPathCompiler FhirPathCompiler { get; set; }
+        /// <remarks>If this property is not set, the validator will 
+        /// use a FhirPathCompiler with all FHIR extensions installed.</remarks>
+        public Hl7.FhirPath.FhirPathCompiler? FhirPathCompiler { get; set; }
 
         /// <summary>
         /// The validator needs StructureDefinitions to have a snapshot form to function. If a StructureDefinition
@@ -60,19 +63,18 @@ namespace Hl7.Fhir.Validation
         /// (if the <see cref="GenerateSnapshot"/> property is enabled).
         /// <para>Never returns <c>null</c>. Assigning <c>null</c> reverts back to default settings.</para>
         /// </summary>
-        public SnapshotGeneratorSettings GenerateSnapshotSettings
+        public SnapshotGeneratorSettings? GenerateSnapshotSettings
         {
             get => _generateSnapshotSettings;
             set => _generateSnapshotSettings = value?.Clone() ?? SnapshotGeneratorSettings.CreateDefault();
         }
 
+        private SnapshotGeneratorSettings _generateSnapshotSettings = SnapshotGeneratorSettings.CreateDefault();
+
         /// <summary>
         /// Include informational tracing information in the validation output. Useful for debugging purposes. Default is 'false'.
         /// </summary>
         public bool Trace { get; set; } // = false;
-
-        // Options: validate extension urls
-        // FP SymbolTable
 
         /// <summary>
         /// StructureDefinition may contain FhirPath constraints to enfore invariants in the data that cannot
@@ -82,19 +84,19 @@ namespace Hl7.Fhir.Validation
         public bool SkipConstraintValidation { get; set; } // = false;
 
         /// <summary>
-        /// A list of constraints to be ignored by the validator. Default values are dom-6 and rng-2
+        /// A list of constraints to be ignored by the validator. Default values are dom-6, rng-2, "bdl-8" and "cnl-0"
         /// </summary>
-        public string[] ConstraintsToIgnore { get; set; } = new string[] { "dom-6", "rng-2" };
+        public string[]? ConstraintsToIgnore { get; set; } = new string[] { "dom-6", "rng-2", "bdl-8", "cnl-0" };
+
         /// <summary>
         /// If a reference is encountered that references to a resource outside of the current instance being validated,
         /// this setting controls whether the validator will call out to the ResourceResolver to try to resolve the
-        /// external reference. Note: References that refer to resources inside the current instance (i.e.
-        /// contained resources, Bundle entries) will always be followed and validated.
+        /// external reference.
         /// </summary>
+        /// <remarks>References that refer to resources inside the current instance (i.e.
+        /// contained resources, Bundle entries) will always be followed and validated. See <see cref="Validator.OnExternalResolutionNeeded"/> 
+        /// for more information.</remarks>
         public bool ResolveExternalReferences { get; set; } // = false;
-
-        [Obsolete("Typo. Please use the correct ResolveExternalReferences property. Obsolete since 2019-11-13")]
-        public bool ResolveExteralReferences { get { return ResolveExternalReferences; } set { ResolveExternalReferences = value; } }
 
         /// <summary>
         /// If set to true (and the XDocument specific overloads of validate() are used), the validator will run
@@ -103,17 +105,19 @@ namespace Hl7.Fhir.Validation
         public bool EnableXsdValidation { get; set; } // = false;
 
         /// <summary>
-        /// Choose whether the validator will treat the violations of the invariants marked as best practices  as errors or as warnings.
+        /// Choose whether the validator will treat the violations of the invariants marked as best practices as errors or as warnings.
         /// </summary>
         public ConstraintBestPracticesSeverity ConstraintBestPracticesSeverity { get; set; }
 
         /// <summary>
         /// Determine where to retrieve the XSD schemas from when when Xsd validation is enabled and run.
         /// </summary>
-        /// <remarks>If this is not set, the default location (using specification.zip) will be used.</remarks>
-        public SchemaCollection XsdSchemaCollection { get; set; }
+        /// <remarks>If this is not set, the default FHIR XSDs from the specification will be used.</remarks>
+        public XmlSchemaSet? XsdSchemaCollection { get; set; }
 
-        /// <summary>Default constructor. Creates a new <see cref="ValidationSettings"/> instance with default property values.</summary>
+        /// <summary>
+        /// Default constructor. Creates a new <see cref="ValidationSettings"/> instance with default property values.
+        /// </summary>
         public ValidationSettings() { }
 
         /// <summary>Clone constructor. Generates a new <see cref="ValidationSettings"/> instance initialized from the state of the specified instance.</summary>
@@ -147,10 +151,12 @@ namespace Hl7.Fhir.Validation
         }
 
         /// <summary>Creates a new <see cref="ValidationSettings"/> object that is a copy of the current instance.</summary>
-        public ValidationSettings Clone() => new ValidationSettings(this);
+        public ValidationSettings Clone() => new(this);
 
         /// <summary>Creates a new <see cref="ValidationSettings"/> instance with default property values.</summary>
-        public static ValidationSettings CreateDefault() => new ValidationSettings();
+        public static ValidationSettings CreateDefault() => new();
 
     }
 }
+
+#nullable restore

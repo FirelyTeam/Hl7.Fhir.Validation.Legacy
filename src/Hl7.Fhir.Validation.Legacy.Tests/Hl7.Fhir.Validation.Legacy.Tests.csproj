@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Firely.Legacy.Validator\Firely.Legacy.Validator.csproj" />
+    <ProjectReference Include="..\Hl7.Fhir.Validation.Legacy.R4B\Hl7.Fhir.Validation.Legacy.R4B.csproj" />
 
   </ItemGroup>
 	
