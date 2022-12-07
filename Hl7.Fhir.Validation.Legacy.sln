@@ -3,34 +3,69 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.R4B", "src\Hl7.Fhir.Validation.Legacy.R4B\Hl7.Fhir.Validation.Legacy.R4B.csproj", "{D154FD40-4F29-4B29-ACF2-654F3BA3E5F0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.Tests", "src\Hl7.Fhir.Validation.Legacy.Tests\Hl7.Fhir.Validation.Legacy.Tests.csproj", "{AB86FF4E-8A6F-4519-B50E-49726B6F2789}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.Validation.Legacy.Shared", "src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.shproj", "{FB1D197F-11A5-4D46-9357-AC3AC25060C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.R4", "src\Hl7.Fhir.Validation.Legacy.R4\Hl7.Fhir.Validation.Legacy.R4.csproj", "{EF0EDC51-4EDF-4F76-87B2-FD1EBC0CF78D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.R4B", "src\Hl7.Fhir.Validation.Legacy.R4B\Hl7.Fhir.Validation.Legacy.R4B.csproj", "{8D11FCEE-115D-41E3-9842-D2C0F67C282B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.R5", "src\Hl7.Fhir.Validation.Legacy.R5\Hl7.Fhir.Validation.Legacy.R5.csproj", "{CC1A138B-64B8-4455-84B5-DD1293936C6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.Tests", "src\Hl7.Fhir.Validation.Legacy.Tests\Hl7.Fhir.Validation.Legacy.Tests.csproj", "{F4148004-9540-4C7C-964E-02A58F1F65DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02549E6C-8657-4C7C-9473-89C2CBDFEF32}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.STU3", "src\Hl7.Fhir.Validation.Legacy.STU3\Hl7.Fhir.Validation.Legacy.STU3.csproj", "{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		FullDebug|Any CPU = FullDebug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D154FD40-4F29-4B29-ACF2-654F3BA3E5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D154FD40-4F29-4B29-ACF2-654F3BA3E5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D154FD40-4F29-4B29-ACF2-654F3BA3E5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D154FD40-4F29-4B29-ACF2-654F3BA3E5F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB86FF4E-8A6F-4519-B50E-49726B6F2789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB86FF4E-8A6F-4519-B50E-49726B6F2789}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB86FF4E-8A6F-4519-B50E-49726B6F2789}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB86FF4E-8A6F-4519-B50E-49726B6F2789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF0EDC51-4EDF-4F76-87B2-FD1EBC0CF78D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF0EDC51-4EDF-4F76-87B2-FD1EBC0CF78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF0EDC51-4EDF-4F76-87B2-FD1EBC0CF78D}.FullDebug|Any CPU.ActiveCfg = FullDebug|Any CPU
+		{EF0EDC51-4EDF-4F76-87B2-FD1EBC0CF78D}.FullDebug|Any CPU.Build.0 = FullDebug|Any CPU
+		{EF0EDC51-4EDF-4F76-87B2-FD1EBC0CF78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF0EDC51-4EDF-4F76-87B2-FD1EBC0CF78D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D11FCEE-115D-41E3-9842-D2C0F67C282B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D11FCEE-115D-41E3-9842-D2C0F67C282B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D11FCEE-115D-41E3-9842-D2C0F67C282B}.FullDebug|Any CPU.ActiveCfg = FullDebug|Any CPU
+		{8D11FCEE-115D-41E3-9842-D2C0F67C282B}.FullDebug|Any CPU.Build.0 = FullDebug|Any CPU
+		{8D11FCEE-115D-41E3-9842-D2C0F67C282B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D11FCEE-115D-41E3-9842-D2C0F67C282B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC1A138B-64B8-4455-84B5-DD1293936C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC1A138B-64B8-4455-84B5-DD1293936C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC1A138B-64B8-4455-84B5-DD1293936C6A}.FullDebug|Any CPU.ActiveCfg = FullDebug|Any CPU
+		{CC1A138B-64B8-4455-84B5-DD1293936C6A}.FullDebug|Any CPU.Build.0 = FullDebug|Any CPU
+		{CC1A138B-64B8-4455-84B5-DD1293936C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC1A138B-64B8-4455-84B5-DD1293936C6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4148004-9540-4C7C-964E-02A58F1F65DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4148004-9540-4C7C-964E-02A58F1F65DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4148004-9540-4C7C-964E-02A58F1F65DC}.FullDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4148004-9540-4C7C-964E-02A58F1F65DC}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
+		{F4148004-9540-4C7C-964E-02A58F1F65DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4148004-9540-4C7C-964E-02A58F1F65DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}.FullDebug|Any CPU.ActiveCfg = FullDebug|Any CPU
+		{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}.FullDebug|Any CPU.Build.0 = FullDebug|Any CPU
+		{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0A5A18B3-D1DC-4F60-8764-5698B15822A1}
+		SolutionGuid = {FC9B884A-F26E-4C3C-9E83-6B8F95E52E27}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{d154fd40-4f29-4b29-acf2-654f3ba3e5f0}*SharedItemsImports = 5
+		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{4f699d46-a8a7-49a9-a2c5-ba2b5d15adc7}*SharedItemsImports = 5
+		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{8d11fcee-115d-41e3-9842-d2c0f67c282b}*SharedItemsImports = 5
+		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{cc1a138b-64b8-4455-84b5-dd1293936c6a}*SharedItemsImports = 5
+		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{ef0edc51-4edf-4f76-87b2-fd1ebc0cf78d}*SharedItemsImports = 5
+		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{fb1d197f-11a5-4d46-9357-ac3ac25060c5}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

@@ -1,28 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
-  <Import Project="..\firely-net-sdk-tests.props" />
+	<Import Project="..\firely-net-sdk-tests.props" />
 
-  <PropertyGroup>
-    <AssemblyName>Firely.Legacy.Validator.Tests</AssemblyName>   
-  </PropertyGroup>
+	<PropertyGroup>
+		<AssemblyName>Firely.Legacy.Validator.Tests</AssemblyName>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Hl7.Fhir.Validation.Legacy.R4B\Hl7.Fhir.Validation.Legacy.R4B.csproj" />
+	<ItemGroup>
+		<ProjectReference Include="..\Hl7.Fhir.Validation.Legacy.R4B\Hl7.Fhir.Validation.Legacy.R4B.csproj" />
+	</ItemGroup>
 
-  </ItemGroup>
-	
-  <ItemGroup>         
-      <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-      <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
-      <PackageReference Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
-      <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-      <PackageReference Include="System.AppContext" Version="4.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Hl7.Fhir.R4B.Specification.Data" Version="5.0.0-alpha-20221207.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="TestData\**\*.xml;TestData\**\*.json;TestData\**\*.tgz">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="TestData\**\*.xml;TestData\**\*.json;TestData\**\*.tgz">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
 
 </Project>
