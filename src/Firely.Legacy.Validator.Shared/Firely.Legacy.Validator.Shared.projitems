@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>fb1d197f-11a5-4d46-9357-ac3ac25060c5</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Firely.Legacy.Validator.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\BaseBucket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\BatchValidationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\BindingDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\BindingValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\BucketFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Cardinality.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ChildConstraintValidationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\CombinedDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\ComprehensiveDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\ConstraintsBucket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\DisciminatorFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\DiscriminatorBucket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\ElementBucket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ElementDefinitionNavigatorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\ExistsDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\FixedPatternValidationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\FpConstraintValidationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\IBucket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\IDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\InstanceToProfileMatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\MinMaxValidationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\PathBasedDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\PatternDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\PocoValidationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ProfileAssertion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\ProfileDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ProfilePreprocessor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Schema\Binding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Schema\IAssertion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Schema\InvalidValidationContextException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Schema\IValidatable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Schema\SchemaCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Schema\ValidationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Schema\ValidationOutcome.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\SliceGroupBucket.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\SlicingType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\TypeDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\TypeRefValidationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\ValidationState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Validator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\ValueDiscriminator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\XmlValidationExtensions.cs" />
+  </ItemGroup>
+</Project>

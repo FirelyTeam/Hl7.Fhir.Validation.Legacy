@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+	<Import Project="..\Firely.Legacy.Validator.Shared\Firely.Legacy.Validator.Shared.projitems" Label="Shared" />
+
+	<Import Project="..\firely-net-sdk.props" />
+
+	<PropertyGroup>
+		<PackageId>Firely.Legacy.Validator</PackageId>
+		<Title>HL7 FHIR Specification support SDK for R4B</Title>
+		<Summary></Summary>
+		<Description>This library offers additional support beyond core for HL7's FHIR standard (http://hl7.org/fhir). It contains functionality to working with FHIR's specification (meta)data such as profiles, profile-based validation and publication</Description>
+		<PackageTags>HL7 FHIR Profile Metadata Validation Publication Schematron Schema;Firely;SD</PackageTags>
+		<AssemblyName>Hl7.Fhir.R4B.Specification</AssemblyName>
+		<RootNamespace>Hl7.Fhir.Specification</RootNamespace>
+	</PropertyGroup>
+
+
+	<ItemGroup Condition=" '$(TargetFramework)' != 'net452'">
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net452'">
+		<Reference Include="System.Net.Http" />
+		<Reference Include="System.ComponentModel.DataAnnotations" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Hl7.Fhir.R4B" Version="5.0.0-alpha-20221207.1" />
+	  <PackageReference Include="Hl7.Fhir.R4B.Specification.Data" Version="5.0.0-alpha-20221207.1" />
+	</ItemGroup>
+
+</Project>
