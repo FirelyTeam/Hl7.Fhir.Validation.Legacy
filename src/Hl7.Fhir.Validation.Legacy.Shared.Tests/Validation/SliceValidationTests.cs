@@ -301,9 +301,13 @@ namespace Hl7.Fhir.Specification.Tests
 
             void test(string fhirCode, string localCode, int slice)
             {
+#if STU3
                 // STU3: http://hl7.org/fhir/v2/0203
+                var data = new CodeableConcept("http://hl7.org/fhir/v2/0203", fhirCode);
+#else
                 // R4: http://terminology.hl7.org/CodeSystem/v2-0203
                 var data = new CodeableConcept("http://terminology.hl7.org/CodeSystem/v2-0203", fhirCode);
+#endif
                 if (localCode != null)
                     data.Coding.Add(new Coding("http://local-codes.nl/identifier-types", localCode));
 

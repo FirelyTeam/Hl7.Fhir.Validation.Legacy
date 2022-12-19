@@ -189,7 +189,11 @@ namespace Hl7.Fhir.Specification.Tests
             var report = _validator.Validate(data, boolSd);
             output.WriteLine(report.ToString());
             Assert.Equal(0, report.Fatals);
+#if STU3
+            Assert.Equal(1, report.Errors); // ext-1
+#else
             Assert.Equal(2, report.Errors); // ext-1, Extension.value[x] cardinality [1..1]
+#endif
             Assert.Equal(0, report.Warnings);
         }
 
@@ -536,6 +540,7 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.Equal(0, result.Warnings);
         }
 
+#if !STU3
         [Fact]
         public void TestConstraintBestPractices()
         {
@@ -565,6 +570,7 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.Contains("Instance failed constraint dom-6 \"A resource should have narrative for robust management\"", result.Issue[0].ToString());
             Assert.Equal(0, result.Errors);
         }
+#endif
 
         [Fact]
         public void ValidateOverNameRef()
@@ -585,7 +591,7 @@ namespace Hl7.Fhir.Specification.Tests
         [Fact]
         public void ValidateInstant()
         {
-            var obs = SourceNode.Resource("Parameters", "Parameters",
+            var param = SourceNode.Resource("Parameters", "Parameters",
                 SourceNode.Valued("id", "example"),
                 SourceNode.Valued("parameter", null,
                     SourceNode.Valued("name", "instant"),
@@ -593,11 +599,12 @@ namespace Hl7.Fhir.Specification.Tests
                 );
 
 
-            var report = _validator.Validate(obs.ToTypedElement(new PocoStructureDefinitionSummaryProvider()));
+            var report = _validator.Validate(param.ToTypedElement(new PocoStructureDefinitionSummaryProvider()));
             Assert.False(report.Success);
             Assert.Equal(1, report.Errors); // timezone in 'valueInstant' is missing
             Assert.Equal(0, report.Warnings);
-            Assert.Contains("does not match regex", report.Issue[0].Details.Text);
+            report.Issue.Should().HaveCount(1);
+            report.Issue[0].Details.Text.Should().Contain("does not match regex");
         }
 
 
@@ -611,7 +618,8 @@ namespace Hl7.Fhir.Specification.Tests
 
             var report = _validator.Validate(p);
             Assert.Equal(1, report.Errors);
-            Assert.Contains("Value '1974-12-25+03:00' does not match regex", report.Issue[0].Details.Text);
+            report.Issue.Should().HaveCount(1);
+            report.Issue[0].Details.Text.Should().Contain("Value '1974-12-25+03:00' does not match regex");
             Assert.Equal(0, report.Warnings);
         }
 
@@ -953,14 +961,19 @@ namespace Hl7.Fhir.Specification.Tests
         [Fact]
         public void TestChoiceBindingValidation()
         {
+#if STU3
+            var dataAbsentReasonSystem = "http://hl7.org/fhir/data-absent-reason";
+#else
+            var dataAbsentReasonSystem = "http://terminology.hl7.org/CodeSystem/data-absent-reason";
+#endif
             var profile = "http://validationtest.org/fhir/StructureDefinition/ParametersWithBoundParams";
             var cc = new CodeableConcept();
-            cc.Coding.Add(new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "not-a-number"));
-            cc.Coding.Add(new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "not-asked"));
+            cc.Coding.Add(new Coding(dataAbsentReasonSystem, "masked"));
+            cc.Coding.Add(new Coding(dataAbsentReasonSystem, "not-asked"));
 
             var p = new Parameters();
             p.Add("cc", cc);
-            p.Add("c", new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "not-a-number"));
+            p.Add("c", new Coding(dataAbsentReasonSystem, "not-asked"));
             p.Add("s", new FhirString("not-asked"));
 
             var report = _validator.Validate(p, profile);

@@ -294,7 +294,11 @@ namespace Hl7.Fhir.Specification.Tests
 
             var nameDef = new ElementDefinition("Organization.name.value")
                 .OfType(FHIRAllTypes.String);
+#if STU3
+            nameDef.Type.Single().SetStringExtension("http://hl7.org/fhir/StructureDefinition/structuredefinition-regex", "[A-Z].*");
+#else
             nameDef.Type.Single().SetStringExtension("http://hl7.org/fhir/StructureDefinition/regex", "[A-Z].*");
+#endif
             // R4: [Primitive].value elements have no type code
             nameDef.Type.Single().Code = null;
 
