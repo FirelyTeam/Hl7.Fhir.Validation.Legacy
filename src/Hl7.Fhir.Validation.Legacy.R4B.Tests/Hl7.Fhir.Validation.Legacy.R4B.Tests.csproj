@@ -5,7 +5,7 @@
 	<Import Project="..\firely-net-sdk-tests.props" />
 
 	<PropertyGroup>
-		<AssemblyName>Firely.Legacy.Validator.R4B.Tests</AssemblyName>
+		<AssemblyName>Hl7.Fhir.Validation.Legacy.R4B.Tests</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>

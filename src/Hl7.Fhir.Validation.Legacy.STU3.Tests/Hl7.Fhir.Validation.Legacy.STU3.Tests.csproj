@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<AssemblyName>Firely.Legacy.Validator.STU3.Tests</AssemblyName>
+		<AssemblyName>Hl7.Fhir.Validation.Legacy.STU3.Tests</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>

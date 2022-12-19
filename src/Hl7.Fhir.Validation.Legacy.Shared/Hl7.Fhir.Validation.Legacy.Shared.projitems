@@ -9,6 +9,7 @@
     <Import_RootNamespace>Hl7.Fhir.Validation.Legacy.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ConstraintBestPracticesSeverity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\IncorrectElementDefinitionException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\OperationValidCodeExtensions.cs" />
