@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Validation\ConstraintBestPracticesSeverity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\IncorrectElementDefinitionException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validation\OperationValidCodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\SchemaCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\Slicing\BaseBucket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Validation\BatchValidationExtensions.cs" />

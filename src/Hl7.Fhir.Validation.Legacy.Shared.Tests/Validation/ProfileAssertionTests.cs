@@ -25,7 +25,7 @@ namespace Hl7.Fhir.Specification.Tests
                         new BasicValidationTests.BundleExampleResolver(Path.Combine("TestData", "validation")),
                         new DirectorySource(Path.Combine("TestData", "validation")),
                         new TestProfileArtifactSource(),
-                        new FhirPackageSource("http://packages2.fhir.org/packages", new string[] { "hl7.fhir.r4b.core@4.3.0" })));
+                        ZipSource.CreateValidationSource()));
 
             var ctx = new ValidationSettings()
             {

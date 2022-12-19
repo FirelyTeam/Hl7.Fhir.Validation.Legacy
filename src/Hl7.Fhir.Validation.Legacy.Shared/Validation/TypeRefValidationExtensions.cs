@@ -133,20 +133,6 @@ namespace Hl7.Fhir.Validation
             }
         }
 
-        private static Func<OperationOutcome> createValidatorForDeclaredProfile(
-            Validator validator,
-            ScopedNode instance,
-            string declaredProfile,
-            ValidationState state)
-        {
-            return validate;
-
-            OperationOutcome validate()
-            {
-                return validator.ValidateInternal(instance, declaredProfile, statedCanonicals: null, statedProfiles: null, state);
-            }
-        }
-
         internal static OperationOutcome ValidateResourceReference(
             this Validator validator,
             ScopedNode instance,
@@ -203,11 +189,19 @@ namespace Hl7.Fhir.Validation
                 //              we be permitting more than one target profile here.
                 if (encounteredKind != ElementDefinition.AggregationMode.Referenced)
                 {
+#if STU3
+                    childResult = validator.ValidateInternal(referencedResource,
+                                         typeRef.TargetProfile,
+                                         statedProfiles: null,
+                                         statedCanonicals: null,
+                                         state: state);
+#else
                     childResult = validator.validateReferences(reference,
                                                                referencedResource,
                                                                typeRef.TargetProfile,
                                                                state,
                                                                external: false);
+#endif
                 }
                 else
                 {
@@ -215,11 +209,20 @@ namespace Hl7.Fhir.Validation
                     var newState = state.NewInstanceScope();
                     newState.Instance.ExternalUrl = reference;
 
+#if STU3
+                    childResult = newState.Global.ExternalValidations.Start(reference, typeRef.TargetProfile,
+                        () => newValidator.ValidateInternal(referencedResource,
+                                                        typeRef.TargetProfile,
+                                                        statedProfiles: null,
+                                                        statedCanonicals: null,
+                                                        state: newState));
+#else
                     childResult = newValidator.validateReferences(reference,
                                                                   referencedResource,
                                                                   typeRef.TargetProfile,
                                                                   newState,
                                                                   external: true);
+#endif
                 }
 
                 // Prefix each path with the referring resource's path to keep the locations
@@ -240,6 +243,7 @@ namespace Hl7.Fhir.Validation
         }
 
 
+#if !STU3
         private static OperationOutcome validateReferences(
             this Validator validator,
             string reference,
@@ -274,6 +278,7 @@ namespace Hl7.Fhir.Validation
                                                         state: state));
             }
         }
+#endif
 
         private static ITypedElement resolveReference(this Validator validator, ScopedNode instance, string reference, out ElementDefinition.AggregationMode? referenceKind, OperationOutcome outcome)
         {

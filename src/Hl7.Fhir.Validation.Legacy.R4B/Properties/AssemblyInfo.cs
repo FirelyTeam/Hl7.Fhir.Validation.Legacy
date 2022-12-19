@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: CLSCompliant(true)]
 
 #if DEBUG
-[assembly: InternalsVisibleTo("Firely.Legacy.Validator.Tests")]
+[assembly: InternalsVisibleTo("Firely.Legacy.Validator.R4B.Tests")]
 #endif
 
 #if RELEASE

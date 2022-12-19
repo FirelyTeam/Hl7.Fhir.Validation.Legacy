@@ -723,6 +723,71 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.True(report.Success);
         }
 
+#if STU3
+        [Fact]
+        public void ValidateCarePlan()
+        {
+            var eoc = new EpisodeOfCare
+            {
+                Identifier = new List<Identifier>() { new Identifier { System = "EpisodeOfCare/example", Value = "example" } },
+                Status = EpisodeOfCare.EpisodeOfCareStatus.Active,
+                Patient = new ResourceReference
+                {
+                    Reference = "Patient/23"
+                }
+            };
+
+            var patient = new Patient
+            {
+                Identifier = new List<Identifier>() { new Identifier { System = "Patient/23", Value = "23" } }
+            };
+
+            var cp = new CarePlan
+            {
+                Status = CarePlan.CarePlanStatus.Active,
+                Intent = CarePlan.CarePlanIntent.Plan,
+                Subject = new ResourceReference
+                {
+                    Reference = "Patient/23"
+                },
+                Context = new ResourceReference
+                {
+                    Reference = "EpisodeOfCare/example"
+                }
+            };
+
+            var source =
+                    new MultiResolver(
+                        new DirectorySource(@"TestData\validation"),
+                        ZipSource.CreateValidationSource());
+
+            var ctx = new ValidationSettings()
+            {
+                ResourceResolver = source,
+                GenerateSnapshot = false,
+                EnableXsdValidation = false,
+                Trace = false,
+                ResolveExternalReferences = true
+            };
+
+            var validator = new Validator(ctx);
+            validator.OnExternalResolutionNeeded += onGetExampleResource;
+            var report = validator.Validate(cp);
+
+            Assert.True(report.Success);
+            Assert.Equal(0, report.Warnings);
+            Assert.Equal(0, report.Errors);
+
+            void onGetExampleResource(object sender, OnResolveResourceReferenceEventArgs e)
+            {
+                if (e.Reference.Contains("EpisodeOfCare"))
+                    e.Result = eoc.ToTypedElement();
+                else
+                    e.Result = patient.ToTypedElement();
+            };
+        }
+
+#else
         [Fact]
         public void ValidateCarePlan()
         {
@@ -750,7 +815,7 @@ namespace Hl7.Fhir.Specification.Tests
             var source =
                     new MultiResolver(
                         new DirectorySource(@"TestData\validation"),
-                        FhirPackageSource.CreateFhirCorePackageSource());
+                        ZipSource.CreateValidationSource());
 
             var ctx = new ValidationSettings()
             {
@@ -774,7 +839,7 @@ namespace Hl7.Fhir.Specification.Tests
                 e.Result = patient.ToTypedElement();
             };
         }
-
+#endif
         [Fact]
         public void ValidateBundle()
         {
@@ -1126,7 +1191,7 @@ namespace Hl7.Fhir.Specification.Tests
                     new BundleExampleResolver(@"TestData\validation"),
                     new DirectorySource(@"TestData\validation"),
                     new TestProfileArtifactSource(),
-                    FhirPackageSource.CreateFhirCorePackageSource()));
+                    ZipSource.CreateValidationSource()));
 
             var nrOfParrallelTasks = 50;
             var results = new ConcurrentBag<OperationOutcome>();
@@ -1357,7 +1422,7 @@ namespace Hl7.Fhir.Specification.Tests
             var settings = new ValidationSettings
             {
                 ConstraintBestPracticesSeverity = ConstraintBestPracticesSeverity.Error,
-                ResourceResolver = new CachedResolver(FhirPackageSource.CreateFhirCorePackageSource())
+                ResourceResolver = new CachedResolver(ZipSource.CreateValidationSource())
             };
 
             var validator = new Validator(settings);
@@ -1395,7 +1460,7 @@ namespace Hl7.Fhir.Specification.Tests
             //prepare
             var resolver = new MultiResolver(
                                    new DirectorySource(@"TestData\validation"),
-                                   FhirPackageSource.CreateFhirCorePackageSource());
+                                   ZipSource.CreateValidationSource());
 
             var validator = new Validator(new ValidationSettings() { ResourceResolver = resolver, GenerateSnapshot = false });
 
@@ -1442,6 +1507,7 @@ namespace Hl7.Fhir.Specification.Tests
         new List<object[]>
         {
             new object[] { "ref-1", new ResourceReference{ Display = "Only a display element" }, true },
+#if !STU3
             new object[] { "eld-19", new ElementDefinition { Path = ":.ContainingSpecialCharacters" }, false},
             new object[] { "eld-19", new ElementDefinition { Path = "NoSpecialCharacters" }, true },
             new object[] { "eld-20", new ElementDefinition { Path = "   leadingSpaces" }, false},
@@ -1507,6 +1573,7 @@ namespace Hl7.Fhir.Specification.Tests
                             Operator = Questionnaire.QuestionnaireItemOperator.Exists,
                             Answer = new FhirBoolean(true)
                     }, true },
+#endif
         };
 
 

@@ -16,7 +16,7 @@ namespace Hl7.Fhir.Specification.Tests
         public void PocoAndSdSummaryProvidersShouldBeEqual()
         {
             IStructureDefinitionSummaryProvider pocoSdProvider = new PocoStructureDefinitionSummaryProvider();
-            var resolver = FhirPackageSource.CreateFhirCorePackageSource();
+            var resolver = ZipSource.CreateValidationSource();
             IStructureDefinitionSummaryProvider sdProvide = new StructureDefinitionSummaryProvider(resolver);
 
             foreach (var item in ModelInfo.SupportedResources)

@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
 
+	<Import Project="..\Hl7.Fhir.Validation.Legacy.Shared.Tests\Hl7.Fhir.Validation.Legacy.Shared.Tests.projitems" Label="Shared" />
+
 	<Import Project="..\firely-net-sdk-tests.props" />
 
 	<PropertyGroup>
-		<AssemblyName>Firely.Legacy.Validator.Tests</AssemblyName>
+		<AssemblyName>Firely.Legacy.Validator.R4B.Tests</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -11,7 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Hl7.Fhir.R4B.Specification.Data" Version="5.0.0-alpha-20221207.1" />
+		<PackageReference Include="Hl7.Fhir.Specification.Data.R4B" Version="$(FirelySdkVersion)" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -19,6 +21,5 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-
 
 </Project>

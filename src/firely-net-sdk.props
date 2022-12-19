@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net452;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<!-- Solution-wide properties for NuGet packaging -->
@@ -11,16 +11,19 @@
 		<Authors>Firely (info@fire.ly) and contributors</Authors>
 		<Company>Firely (https://fire.ly)</Company>
 		<Copyright>Copyright 2013-2022 Firely.  Contains materials (C) HL7 International</Copyright>
-		<!--
 		<PackageProjectUrl>https://github.com/FirelyTeam/firely-net-sdk</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/FirelyTeam/firely-net-sdk</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>-->
+		<RepositoryType>git</RepositoryType>
 		<PackageIcon>icon-firely-sdk-128.png</PackageIcon>
 		<PackageReleaseNotes>See https://github.com/FirelyTeam/firely-net-sdk/releases</PackageReleaseNotes>
 		<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<FirelySdkVersion>5.0.0-alpha-20221216.3</FirelySdkVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -39,6 +42,7 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
 	</ItemGroup>
 -->
+	
 	<!-- Compiler settings -->
 	<PropertyGroup>
 		<LangVersion>9.0</LangVersion>

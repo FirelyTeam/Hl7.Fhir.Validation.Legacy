@@ -14,6 +14,7 @@ using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
 using System;
 using System.Linq;
+using static Hl7.Fhir.Model.ElementDefinition;
 
 namespace Hl7.Fhir.Validation
 {
@@ -38,11 +39,13 @@ namespace Hl7.Fhir.Validation
                 // of FP up, which could do comparisons between quantities.
                 if (v.Settings.ConstraintsToIgnore.Contains(constraintElement.Key)) continue;
 
+#if !STU3
                 if (constraintElement.GetBoolExtension("http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice") == true)
                     if (v.Settings.ConstraintBestPracticesSeverity == ConstraintBestPracticesSeverity.Error)
                         constraintElement.Severity = ConstraintSeverity.Error;
                     else if (v.Settings.ConstraintBestPracticesSeverity == ConstraintBestPracticesSeverity.Warning)
                         constraintElement.Severity = ConstraintSeverity.Warning;
+#endif
 
                 // The following constraints will be repaired in R4B - pre-apply it for other R3+ here as well.
                 constraintElement.Expression = constraintElement switch

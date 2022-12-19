@@ -135,10 +135,19 @@ namespace Hl7.Fhir.Validation
                 // the current element can only be profiled by the <profile> tag(s) on the <type> element.
                 // Note that the element pointed to by the discriminator should have constrained the types
                 // to a single (unique) type, but we will allow multiple <profile>s.
+
+#if STU3
+                if (spec.Type.Select(tr => tr.Code).Distinct().Count() != 1)
+#else
                 if (spec.Type.Count != 1)   // in R4 codes are always unique
+#endif
                     throw new IncorrectElementDefinitionException($"The profile discriminator '{discriminator}' should navigate to an ElementDefinition with exactly one 'type' element at '{nav.CanonicalPath()}'.");
 
+#if STU3
+                var profiles = spec.Type.Select(tr => tr.Profile).Distinct();
+#else
                 var profiles = spec.Type.Single().Profile;
+#endif
                 return new ProfileDiscriminator(profiles, discriminator, validator);
             }
         }

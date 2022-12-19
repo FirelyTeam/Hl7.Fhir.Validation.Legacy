@@ -232,6 +232,15 @@ namespace Hl7.Fhir.Validation
 
                 var elementConstraints = definition.Current;
 
+#if STU3
+                if (elementConstraints.IsPrimitiveValueConstraint())
+                {
+                    // The "value" property of a FHIR Primitive is the bottom of our recursion chain, it does not have a nameReference
+                    // nor a <type>, the only thing left to do to validate the content is to validate the string representation of the
+                    // primitive against the regex given in the core definition
+                    outcome.Add(VerifyPrimitiveContents(elementConstraints, instance));
+                }
+#else
                 if (elementConstraints.IsPrimitiveConstraint())
                 {
                     // The "value" property of a FHIR Primitive and Extension.url are the bottom of our recursion chain, 
@@ -240,6 +249,7 @@ namespace Hl7.Fhir.Validation
                     var regexOutcome = validateRegexExtension(elementConstraints.Type.Single(), instance, "http://hl7.org/fhir/StructureDefinition/regex");
                     outcome.Add(regexOutcome);
                 }
+#endif
                 else
                 {
                     bool isInlineChildren = !definition.Current.IsRootElement();
@@ -410,6 +420,36 @@ namespace Hl7.Fhir.Validation
 
             return outcome;
         }
+
+#if STU3
+        internal OperationOutcome VerifyPrimitiveContents(ElementDefinition definition, ITypedElement instance)
+        {
+            var outcome = new OperationOutcome();
+
+            Trace(outcome, "Verifying content of the leaf primitive value attribute", Issue.PROCESSING_PROGRESS, instance);
+
+            // Go look for the primitive type extensions
+            //  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-regex">
+            //        <valueString value="-?([0]|([1-9][0-9]*))"/>
+            //      </extension>
+            //      <code>
+            //        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type">
+            //          <valueString value="number"/>
+            //        </extension>
+            //        <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-type">
+            //          <valueString value="int"/>
+            //        </extension>
+            //      </code>
+            // Note that the implementer of IValueProvider may already have outsmarted us and parsed
+            // the wire representation (i.e. POCO). If the provider reads xml directly, would it know the
+            // type? Would it convert it to a .NET native type? How to check?
+
+            // The spec has no regexes for the primitives mentioned below, so don't check them
+            return definition.Type.Count == 1
+                ? validateRegexExtension(definition.Type.Single(), instance, "http://hl7.org/fhir/StructureDefinition/structuredefinition-regex")
+                : outcome;
+        }
+#endif
 
         internal OperationOutcome ValidateMaxLength(ElementDefinition definition, ITypedElement instance)
         {

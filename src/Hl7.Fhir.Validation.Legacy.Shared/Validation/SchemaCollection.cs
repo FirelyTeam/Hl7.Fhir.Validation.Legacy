@@ -33,7 +33,6 @@ namespace Hl7.Fhir.Specification.Source
         /// <summary>
         /// Constructs a SchemaCollection which retrieves XML schemas from the default source.
         /// </summary>
-        /// <remarks>The default source is the source returned by <see cref="CommonDirectorySource.SpecificationDirectory"/>.</remarks>
         public SchemaCollection()
         {
             _validationSchemaSet = new(SerializationUtil.BASEFHIRSCHEMAS, typeof(SchemaCollection).Assembly, FHIRSINGLE_XSD_RESOURCENAME);

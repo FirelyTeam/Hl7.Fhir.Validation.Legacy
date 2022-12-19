@@ -3,6 +3,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Serialization;
 using Hl7.Fhir.Specification.Source;
 using Hl7.Fhir.Support;
+using Hl7.Fhir.Utility;
 using Hl7.Fhir.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Hl7.Fhir.Specification.Tests
 
             var ctx = new ValidationSettings()
             {
-                ResourceResolver = FhirPackageSource.CreateFhirCorePackageSource(),
+                ResourceResolver = ZipSource.CreateValidationSource(),
             };
 
             var validator = new Validator(ctx);
@@ -47,7 +48,11 @@ namespace Hl7.Fhir.Specification.Tests
                 Type = "Observation",
                 Status = PublicationStatus.Draft,
                 Kind = StructureDefinition.StructureDefinitionKind.Resource,
-                FhirVersion = FHIRVersion.N4_3_0,
+#if STU3
+                FhirVersion = ModelInfo.Version,
+#else
+                FhirVersion = EnumUtility.ParseLiteral<FHIRVersion>(ModelInfo.Version),
+#endif
                 Derivation = StructureDefinition.TypeDerivationRule.Constraint,
                 BaseDefinition = "http://hl7.org/fhir/StructureDefinition/Observation",
                 Abstract = false,
@@ -91,7 +96,7 @@ namespace Hl7.Fhir.Specification.Tests
 
             var settings = new ValidationSettings()
             {
-                ResourceResolver = new MultiResolver(new InMemoryProfileResolver(observationDef), FhirPackageSource.CreateFhirCorePackageSource()),
+                ResourceResolver = new MultiResolver(new InMemoryProfileResolver(observationDef), ZipSource.CreateValidationSource()),
                 GenerateSnapshot = true,
                 GenerateSnapshotSettings = new()
                 {

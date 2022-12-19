@@ -568,7 +568,11 @@ namespace Hl7.Fhir.Specification.Tests
             result.Name = name;
             result.Status = PublicationStatus.Draft;
             result.Description = new Markdown(description);
+#if STU3
+            result.FhirVersion = ModelInfo.Version;
+#else
             result.FhirVersion = EnumUtility.ParseLiteral<FHIRVersion>(ModelInfo.Version);
+#endif
             result.Derivation = StructureDefinition.TypeDerivationRule.Constraint;
 
             if (ModelInfo.IsKnownResource(constrainedType))

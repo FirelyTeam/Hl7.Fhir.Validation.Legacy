@@ -14,22 +14,12 @@
 		<RootNamespace>Hl7.Fhir.Specification</RootNamespace>
 	</PropertyGroup>
 
-
-	<ItemGroup Condition=" '$(TargetFramework)' != 'net452'">
-		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net452'">
-		<Reference Include="System.Net.Http" />
-		<Reference Include="System.ComponentModel.DataAnnotations" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<EmbeddedResource Include="fhir-single.zip" LogicalName="fhir-single.zip" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Hl7.Fhir.R4B" Version="5.0.0-alpha-20221207.1" />
+	  <PackageReference Include="Hl7.Fhir.R4B" Version="$(FirelySdkVersion)" />
 	</ItemGroup>
 
 </Project>
