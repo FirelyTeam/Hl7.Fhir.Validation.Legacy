@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+	<Import Project="..\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems" Label="Shared" />
+
+	<Import Project="..\firely-net-sdk.props" />
+
+	<PropertyGroup>
+		<PackageId>Hl7.Fhir.Validation.Legacy.R5</PackageId>
+		<Title>HL7 FHIR Specification support SDK for R4B</Title>
+		<Summary></Summary>
+		<Description>This library offers additional support beyond core for HL7's FHIR standard (http://hl7.org/fhir). It contains functionality to working with FHIR's specification (meta)data such as profiles, profile-based validation and publication</Description>
+		<PackageTags>HL7 FHIR Profile Metadata Validation Publication Schematron Schema;Firely;SD</PackageTags>
+		<AssemblyName>Hl7.Fhir.R4B.Specification</AssemblyName>
+		<RootNamespace>Hl7.Fhir.Specification</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="fhir-single.zip" LogicalName="fhir-single.zip" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Hl7.Fhir.R5" Version="$(FirelySdkVersion)" />
+	</ItemGroup>
+
+</Project>

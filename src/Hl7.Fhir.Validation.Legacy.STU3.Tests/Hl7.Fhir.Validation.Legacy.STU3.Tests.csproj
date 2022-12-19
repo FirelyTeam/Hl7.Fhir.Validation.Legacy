@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+	<Import Project="..\Hl7.Fhir.Validation.Legacy.Shared.Tests\Hl7.Fhir.Validation.Legacy.Shared.Tests.projitems" Label="Shared" />
+
+	<Import Project="..\firely-net-sdk-tests.props" />
+
+	<PropertyGroup>
+		<DefineConstants>STU3</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>Firely.Legacy.Validator.STU3.Tests</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Hl7.Fhir.Validation.Legacy.STU3\Hl7.Fhir.Validation.Legacy.STU3.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hl7.Fhir.Specification.Data.STU3" Version="$(FirelySdkVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="TestData\**\*.xml;TestData\**\*.json;TestData\**\*.tgz">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+</Project>
