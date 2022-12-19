@@ -13,7 +13,7 @@ steps:
       TargetFolder: $(Build.SourcesDirectory)
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) # not a PR
   - powershell: |        
-          $files   =  Get-ChildItem -Path $(Build.SourcesDirectory)\Firely.Fhir.Packages\bin\Release\*\Firely.Fhir.Packages.dll
+          $files   =  Get-ChildItem -Path $(Build.SourcesDirectory)\src\Hl7.Fhir.Validation.Legacy.*\bin\Release\*\Hl7.Fhir.Validation.Legacy.*.dll  -Exclude Hl7.Fhir.Validation.Legacy*Tests
           Write-Verbose "Last exitcode before signing: $lastexitcode" 
           foreach ($file in $files)
           {          

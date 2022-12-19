@@ -10,7 +10,7 @@
 		<Summary></Summary>
 		<Description>This library offers additional support beyond core for HL7's FHIR standard (http://hl7.org/fhir). It contains functionality to working with FHIR's specification (meta)data such as profiles, profile-based validation and publication</Description>
 		<PackageTags>HL7 FHIR Profile Metadata Validation Publication Schematron Schema;Firely;SD</PackageTags>
-		<AssemblyName>Hl7.Fhir.R4B.Specification</AssemblyName>
+		<AssemblyName>Hl7.Fhir.Validation.Legacy.R4</AssemblyName>
 		<RootNamespace>Hl7.Fhir.Specification</RootNamespace>
 	</PropertyGroup>
 
