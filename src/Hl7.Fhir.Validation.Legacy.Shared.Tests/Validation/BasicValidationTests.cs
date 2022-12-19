@@ -585,19 +585,17 @@ namespace Hl7.Fhir.Specification.Tests
         [Fact]
         public void ValidateInstant()
         {
-            var docRef = SourceNode.Resource("DocumentReference", "DocumentReference",
+            var obs = SourceNode.Resource("Parameters", "Parameters",
                 SourceNode.Valued("id", "example"),
-                SourceNode.Valued("status", "current"),
-                SourceNode.Valued("type", null,
-                    SourceNode.Valued("coding", null,
-                        SourceNode.Valued("system", "http://loinc.org"),
-                        SourceNode.Valued("code", "34108-1"),
-                        SourceNode.Valued("display", "Outpatient Note"))),
-                SourceNode.Valued("date", "2005-12-24T09:43:41"));
+                SourceNode.Valued("parameter", null,
+                    SourceNode.Valued("name", "instant"),
+                    SourceNode.Valued("valueInstant", "2005-12-24T09:43:41"))
+                );
 
-            var report = _validator.Validate(docRef.ToTypedElement(new PocoStructureDefinitionSummaryProvider()));
+
+            var report = _validator.Validate(obs.ToTypedElement(new PocoStructureDefinitionSummaryProvider()));
             Assert.False(report.Success);
-            Assert.Equal(2, report.Errors); // timezone in 'date' is missing and mandatory element 'content' is missing
+            Assert.Equal(1, report.Errors); // timezone in 'valueInstant' is missing
             Assert.Equal(0, report.Warnings);
             Assert.Contains("does not match regex", report.Issue[0].Details.Text);
         }
