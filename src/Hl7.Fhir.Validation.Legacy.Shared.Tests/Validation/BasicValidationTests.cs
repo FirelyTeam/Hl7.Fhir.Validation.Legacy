@@ -603,8 +603,8 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.False(report.Success);
             Assert.Equal(1, report.Errors); // timezone in 'valueInstant' is missing
             Assert.Equal(0, report.Warnings);
-            report.Issue.Should().HaveCount(1);
-            report.Issue[0].Details.Text.Should().Contain("does not match regex");
+            var errorIssue = report.Issue.Single(i => i.Severity == OperationOutcome.IssueSeverity.Error);
+            errorIssue.Details.Text.Should().Contain("does not match regex");
         }
 
 
@@ -618,9 +618,9 @@ namespace Hl7.Fhir.Specification.Tests
 
             var report = _validator.Validate(p);
             Assert.Equal(1, report.Errors);
-            report.Issue.Should().HaveCount(1);
-            report.Issue[0].Details.Text.Should().Contain("Value '1974-12-25+03:00' does not match regex");
             Assert.Equal(0, report.Warnings);
+            var errorIssue = report.Issue.Single(i => i.Severity == OperationOutcome.IssueSeverity.Error);
+            errorIssue.Details.Text.Should().Contain("Value '1974-12-25+03:00' does not match regex");
         }
 
         [Fact]
