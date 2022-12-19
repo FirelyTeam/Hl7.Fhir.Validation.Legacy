@@ -1062,7 +1062,9 @@ namespace Hl7.Fhir.Specification.Tests
                 FullUrl = "http://somewhere.org/",
                 Resource = new MessageHeader
                 {
-                    // Timestamp = DateTimeOffset.Now,
+#if STU3
+                    Timestamp = DateTimeOffset.Now,
+#endif
                     Meta = new Meta { LastUpdated = DateTimeOffset.Now }
                 }
             });
@@ -1401,6 +1403,7 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.True(result.Success);
         }
 
+#if !STU3
         [Fact]
         public void ConditionCon3ConstraintTest()
         {
@@ -1427,6 +1430,7 @@ namespace Hl7.Fhir.Specification.Tests
             var result = validator.Validate(condition);
             Assert.True(result.Success);
         }
+#endif
 
         [Fact]
         public void ValidateWithTargetProfileAndChildDefinitions()
