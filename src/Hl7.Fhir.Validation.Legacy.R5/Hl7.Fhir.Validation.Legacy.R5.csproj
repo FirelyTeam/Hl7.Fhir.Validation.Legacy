@@ -6,12 +6,10 @@
 
 	<PropertyGroup>
 		<PackageId>Hl7.Fhir.Validation.Legacy.R5</PackageId>
-		<Title>HL7 FHIR Specification support SDK for R4B</Title>
-		<Summary></Summary>
-		<Description>This library offers additional support beyond core for HL7's FHIR standard (http://hl7.org/fhir). It contains functionality to working with FHIR's specification (meta)data such as profiles, profile-based validation and publication</Description>
-		<PackageTags>HL7 FHIR Profile Metadata Validation Publication Schematron Schema;Firely;SD</PackageTags>
 		<AssemblyName>Hl7.Fhir.Validation.Legacy.R5</AssemblyName>
-		<RootNamespace>Hl7.Fhir.Specification</RootNamespace>
+		<Title>Firely's Legacy profile validator (pre-SDK 5.0) for HL7 FHIR R5</Title>
+		<Description>Firely's Legacy profile validator (pre-SDK 5.0) for HL7 FHIR R5.</Description>
+		<PackageTags>HL7;FHIR;Firely;SDK;profile;validation;StructureDefinition;implementation guide</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
