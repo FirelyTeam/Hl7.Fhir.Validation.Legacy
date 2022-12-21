@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		src\firely-net-sdk-tests.props = src\firely-net-sdk-tests.props
 		src\firely-net-sdk.props = src\firely-net-sdk.props
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.STU3", "src\Hl7.Fhir.Validation.Legacy.STU3\Hl7.Fhir.Validation.Legacy.STU3.csproj", "{4F699D46-A8A7-49A9-A2C5-BA2B5D15ADC7}"
@@ -25,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D4238C4B
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.Validation.Legacy.Shared.Tests", "src\Hl7.Fhir.Validation.Legacy.Shared.Tests\Hl7.Fhir.Validation.Legacy.Shared.Tests.shproj", "{74D5DDFA-3F88-43BE-B953-3E51616DCE45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hl7.Fhir.Validation.Legacy.STU3.Tests", "src\Hl7.Fhir.Validation.Legacy.STU3.Tests\Hl7.Fhir.Validation.Legacy.STU3.Tests.csproj", "{6B829671-3F6C-4BCD-82A5-4BB6AA723D79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.STU3.Tests", "src\Hl7.Fhir.Validation.Legacy.STU3.Tests\Hl7.Fhir.Validation.Legacy.STU3.Tests.csproj", "{6B829671-3F6C-4BCD-82A5-4BB6AA723D79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
