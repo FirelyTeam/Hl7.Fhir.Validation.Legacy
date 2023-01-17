@@ -29,6 +29,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hl7.Fhir.Validation.Legacy.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.STU3.Tests", "src\Hl7.Fhir.Validation.Legacy.STU3.Tests\Hl7.Fhir.Validation.Legacy.STU3.Tests.csproj", "{6B829671-3F6C-4BCD-82A5-4BB6AA723D79}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hl7.Fhir.Validation.Legacy.R5.Tests", "src\Hl7.Fhir.Validation.Legacy.R5.Tests\Hl7.Fhir.Validation.Legacy.R5.Tests.csproj", "{5C958698-18D6-4D5A-87EE-CF49CE46556E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,12 @@ Global
 		{6B829671-3F6C-4BCD-82A5-4BB6AA723D79}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
 		{6B829671-3F6C-4BCD-82A5-4BB6AA723D79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B829671-3F6C-4BCD-82A5-4BB6AA723D79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C958698-18D6-4D5A-87EE-CF49CE46556E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C958698-18D6-4D5A-87EE-CF49CE46556E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C958698-18D6-4D5A-87EE-CF49CE46556E}.FullDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C958698-18D6-4D5A-87EE-CF49CE46556E}.FullDebug|Any CPU.Build.0 = Debug|Any CPU
+		{5C958698-18D6-4D5A-87EE-CF49CE46556E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C958698-18D6-4D5A-87EE-CF49CE46556E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,12 +88,14 @@ Global
 		{F4148004-9540-4C7C-964E-02A58F1F65DC} = {D4238C4B-DB3F-4B5D-8A34-26D4957A867F}
 		{74D5DDFA-3F88-43BE-B953-3E51616DCE45} = {D4238C4B-DB3F-4B5D-8A34-26D4957A867F}
 		{6B829671-3F6C-4BCD-82A5-4BB6AA723D79} = {D4238C4B-DB3F-4B5D-8A34-26D4957A867F}
+		{5C958698-18D6-4D5A-87EE-CF49CE46556E} = {D4238C4B-DB3F-4B5D-8A34-26D4957A867F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC9B884A-F26E-4C3C-9E83-6B8F95E52E27}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{4f699d46-a8a7-49a9-a2c5-ba2b5d15adc7}*SharedItemsImports = 5
+		src\Hl7.Fhir.Validation.Legacy.Shared.Tests\Hl7.Fhir.Validation.Legacy.Shared.Tests.projitems*{5c958698-18d6-4d5a-87ee-cf49ce46556e}*SharedItemsImports = 5
 		src\Hl7.Fhir.Validation.Legacy.Shared.Tests\Hl7.Fhir.Validation.Legacy.Shared.Tests.projitems*{6b829671-3f6c-4bcd-82a5-4bb6aa723d79}*SharedItemsImports = 5
 		src\Hl7.Fhir.Validation.Legacy.Shared.Tests\Hl7.Fhir.Validation.Legacy.Shared.Tests.projitems*{74d5ddfa-3f88-43be-b953-3e51616dce45}*SharedItemsImports = 13
 		src\Hl7.Fhir.Validation.Legacy.Shared\Hl7.Fhir.Validation.Legacy.Shared.projitems*{8d11fcee-115d-41e3-9842-d2c0f67c282b}*SharedItemsImports = 5

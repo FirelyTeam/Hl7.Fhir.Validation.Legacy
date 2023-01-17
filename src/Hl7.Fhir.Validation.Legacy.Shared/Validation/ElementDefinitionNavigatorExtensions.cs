@@ -92,9 +92,9 @@ namespace Hl7.Fhir.Validation
                 }
             }
 
-            /// <summary>Initialize a new <see cref="ProfileReference"/> instance from the specified url.</summary>
+            /// <summary>Initialize a new <see cref="TempProfileReference"/> instance from the specified url.</summary>
             /// <param name="url">A resource reference to a profile.</param>
-            /// <returns>A new <see cref="ProfileReference"/> structure.</returns>
+            /// <returns>A new <see cref="TempProfileReference"/> structure.</returns>
             public static TempProfileReference Parse(string url) => new(url);
 
             /// <summary>Returns the canonical url of the profile.</summary>

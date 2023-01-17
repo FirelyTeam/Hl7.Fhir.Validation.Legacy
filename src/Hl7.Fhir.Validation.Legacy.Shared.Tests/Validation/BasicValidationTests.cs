@@ -810,11 +810,6 @@ namespace Hl7.Fhir.Specification.Tests
                 Subject = new ResourceReference
                 {
                     Reference = "Patient/23"
-                },
-
-                Author = new ResourceReference
-                {
-                    Reference = "Patient/23"
                 }
             };
 
@@ -961,30 +956,26 @@ namespace Hl7.Fhir.Specification.Tests
         [Fact]
         public void TestChoiceBindingValidation()
         {
-#if STU3
-            var dataAbsentReasonSystem = "http://hl7.org/fhir/data-absent-reason";
-#else
-            var dataAbsentReasonSystem = "http://terminology.hl7.org/CodeSystem/data-absent-reason";
-#endif
+            var administrativeGenderSystem = "http://hl7.org/fhir/administrative-gender";
             var profile = "http://validationtest.org/fhir/StructureDefinition/ParametersWithBoundParams";
             var cc = new CodeableConcept();
-            cc.Coding.Add(new Coding(dataAbsentReasonSystem, "masked"));
-            cc.Coding.Add(new Coding(dataAbsentReasonSystem, "not-asked"));
+            cc.Coding.Add(new Coding(administrativeGenderSystem, "female"));
+            cc.Coding.Add(new Coding(administrativeGenderSystem, "male"));
 
             var p = new Parameters();
             p.Add("cc", cc);
-            p.Add("c", new Coding(dataAbsentReasonSystem, "not-asked"));
-            p.Add("s", new FhirString("not-asked"));
+            p.Add("c", new Coding(administrativeGenderSystem, "other"));
+            p.Add("s", new FhirString("unknown"));
 
             var report = _validator.Validate(p, profile);
             Assert.True(report.Success);
             Assert.Equal(0, report.Warnings);
 
             p.Remove("s");
-            p.Add("s", new FhirString("not-a-member"));
+            p.Add("s", new FhirString("not-human"));
             report = _validator.Validate(p, profile);
             Assert.False(report.Success);
-            Assert.Contains("not-a-member", report.ToString());
+            Assert.Contains("not-human", report.ToString());
             Assert.Equal(0, report.Warnings);
         }
 
@@ -1247,7 +1238,7 @@ namespace Hl7.Fhir.Specification.Tests
                 System = "http://unitsofmeasure.org"
             };
 
-            var sqSd = await _asyncSource.FindStructureDefinitionForCoreTypeAsync(FHIRAllTypes.SimpleQuantity);
+            var sqSd = await _asyncSource.FindStructureDefinitionForCoreTypeAsync("SimpleQuantity");
             sqSd.Snapshot = null;
             var result = _validator.Validate(sq, sqSd);
             Assert.True(result.Success);
@@ -1429,6 +1420,7 @@ namespace Hl7.Fhir.Specification.Tests
             var condition = new Condition
             {
                 Text = new Narrative() { Div = "<div xmlns=\"http://www.w3.org/1999/xhtml\">Testing the con-3 invariant</div>", Status = Narrative.NarrativeStatus.Additional },
+                ClinicalStatus = new CodeableConcept("http://terminology.hl7.org/CodeSystem/condition-clinical", "active"),
                 Subject = new ResourceReference("Patient/1"),
                 Category = new List<CodeableConcept> { new CodeableConcept("http://terminology.hl7.org/CodeSystem/condition-category", "encounter-diagnosis") },
             };
@@ -1487,21 +1479,21 @@ namespace Hl7.Fhir.Specification.Tests
                 },
                 Status = PublicationStatus.Active,
                 Item = new List<Questionnaire.ItemComponent>
+    {
+        new Questionnaire.ItemComponent()
+        {
+            LinkId = "1",
+            Type = Questionnaire.QuestionnaireItemType.Boolean,
+            Item = new List<Questionnaire.ItemComponent>
+            {
+                new Questionnaire.ItemComponent()
                 {
-                    new Questionnaire.ItemComponent()
-                    {
-                        LinkId = "1",
-                        Type = Questionnaire.QuestionnaireItemType.Boolean,
-                        Item = new List<Questionnaire.ItemComponent>
-                        {
-                            new Questionnaire.ItemComponent()
-                            {
-                                LinkId = "1.1",
-                                Type = Questionnaire.QuestionnaireItemType.String
-                            }
-                        }
-                    }
+                    LinkId = "1.1",
+                    Type = Questionnaire.QuestionnaireItemType.String
                 }
+            }
+        }
+    }
             };
 
             var outcome = validator.Validate(questionnaire);
@@ -1521,73 +1513,89 @@ namespace Hl7.Fhir.Specification.Tests
         public static IEnumerable<object[]> InvariantTestcases =>
         new List<object[]>
         {
-            new object[] { "ref-1", new ResourceReference{ Display = "Only a display element" }, true },
+new object[] { "ref-1", new ResourceReference{ Display = "Only a display element" }, true },
 #if !STU3
-            new object[] { "eld-19", new ElementDefinition { Path = ":.ContainingSpecialCharacters" }, false},
-            new object[] { "eld-19", new ElementDefinition { Path = "NoSpecialCharacters" }, true },
-            new object[] { "eld-20", new ElementDefinition { Path = "   leadingSpaces" }, false},
-            new object[] { "eld-19", new ElementDefinition { Path = "NoSpaces.withADot" }, true },
-            new object[] { "sdf-0", new StructureDefinition { Name = " leadingSpaces" }, false },
-            new object[] { "sdf-0", new StructureDefinition { Name = "Name" }, true },
-            new object[] { "sdf-24",
-                new StructureDefinition
-                {
-                    Snapshot =
-                    new StructureDefinition.SnapshotComponent
-                        {
-                            Element = new List<ElementDefinition> {
-                                new ElementDefinition
-                                {
-                                    ElementId = "coderef.reference",
-                                    Type = new List<ElementDefinition.TypeRefComponent>
-                                           {
-                                                new ElementDefinition.TypeRefComponent { Code = "Reference", TargetProfile = new[] { "http://example.com/profile" }  }
-                                           }
-                                },
-                                new ElementDefinition
-                                {
-                                    ElementId = "coderef",
-                                    Type = new List<ElementDefinition.TypeRefComponent>
-                                           {
-                                                new ElementDefinition.TypeRefComponent { Code = "CodeableReference"}
-                                           }
-                                },
-                             }
-                    }
-                }, false },
-            new object[] { "sdf-25",
-                new StructureDefinition
-                {
-                    Snapshot =
-                    new StructureDefinition.SnapshotComponent
-                        {
-                            Element = new List<ElementDefinition> {
-                                new ElementDefinition
-                                {
-                                    ElementId = "coderef.concept",
-                                    Type = new List<ElementDefinition.TypeRefComponent>
-                                           {
-                                                new ElementDefinition.TypeRefComponent { Code = "CodeableConcept" }
-                                           },
-                                    Binding = new ElementDefinition.ElementDefinitionBindingComponent { Description = "Just a description" }
-                                },
-                                new ElementDefinition
-                                {
-                                    ElementId = "coderef",
-                                    Type = new List<ElementDefinition.TypeRefComponent>
-                                           {
-                                                new ElementDefinition.TypeRefComponent { Code = "CodeableReference"}
-                                           }
-                                },
-                             }
-                    }
-                }, false },
-            new object[] { "que-7",
-                    new Questionnaire.EnableWhenComponent
-                        {
-                            Operator = Questionnaire.QuestionnaireItemOperator.Exists,
-                            Answer = new FhirBoolean(true)
-                    }, true },
+new object[] { "eld-19", new ElementDefinition { Path = ":.ContainingSpecialCharacters" }, false},
+new object[] { "eld-19", new ElementDefinition { Path = "NoSpecialCharacters" }, true },
+new object[] { "eld-20", new ElementDefinition { Path = "   leadingSpaces" }, false},
+new object[] { "eld-19", new ElementDefinition { Path = "NoSpaces.withADot" }, true },
+new object[] { "sdf-0", new StructureDefinition { Name = " leadingSpaces" }, false },
+new object[] { "sdf-0", new StructureDefinition { Name = "Name" }, true },
+new object[] { "sdf-24",
+    new StructureDefinition
+    {
+        Snapshot =
+        new StructureDefinition.SnapshotComponent
+            {
+                Element = new List<ElementDefinition> {
+                    new ElementDefinition
+                    {
+                        ElementId = "coderef.reference",
+                        Type = new List<ElementDefinition.TypeRefComponent>
+                               {
+                                    new ElementDefinition.TypeRefComponent { Code = "Reference", TargetProfile = new[] { "http://example.com/profile" }  }
+                               }
+                    },
+                    new ElementDefinition
+                    {
+                        ElementId = "coderef",
+                        Type = new List<ElementDefinition.TypeRefComponent>
+                               {
+                                    new ElementDefinition.TypeRefComponent { Code = "CodeableReference"}
+                               }
+                    },
+                 }
+        }
+    }, false },
+new object[] { "sdf-25",
+    new StructureDefinition
+    {
+        Snapshot =
+        new StructureDefinition.SnapshotComponent
+            {
+                Element = new List<ElementDefinition> {
+                    new ElementDefinition
+                    {
+                        ElementId = "coderef.concept",
+                        Type = new List<ElementDefinition.TypeRefComponent>
+                               {
+                                    new ElementDefinition.TypeRefComponent { Code = "CodeableConcept" }
+                               },
+                        Binding = new ElementDefinition.ElementDefinitionBindingComponent { Description = "Just a description" }
+                    },
+                    new ElementDefinition
+                    {
+                        ElementId = "coderef",
+                        Type = new List<ElementDefinition.TypeRefComponent>
+                               {
+                                    new ElementDefinition.TypeRefComponent { Code = "CodeableReference"}
+                               }
+                    },
+                 }
+        }
+    }, false },
+new object[] { "que-7",
+        new Questionnaire.EnableWhenComponent
+            {
+                Operator = Questionnaire.QuestionnaireItemOperator.Exists,
+                Answer = new FhirBoolean(true)
+        }, true },
+new object[] { "sdf-29",
+    new StructureDefinition
+    {
+        Kind = StructureDefinition.StructureDefinitionKind.Resource,
+        Derivation = StructureDefinition.TypeDerivationRule.Specialization,
+        Differential =
+        new StructureDefinition.DifferentialComponent
+            {
+                Element = new List<ElementDefinition> {
+                    new ElementDefinition
+                    {
+                        ElementId = "Example.test",
+                        Min = 1
+                    },                             }
+        }
+    }, true },
 #endif
         };
 

@@ -164,7 +164,7 @@ namespace Hl7.Fhir.Specification.Tests
         {
             var binding = new ElementDefinition.ElementDefinitionBindingComponent
             {
-                ValueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason",
+                ValueSet = "http://hl7.org/fhir/ValueSet/administrative-gender",
                 Strength = BindingStrength.Required
             };
 
@@ -172,17 +172,17 @@ namespace Hl7.Fhir.Specification.Tests
             var vc = new ValidationContext() { TerminologyService = _termService };
 
             var cc = new CodeableConcept();
-            cc.Coding.Add(new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "not-a-number"));
-            cc.Coding.Add(new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "not-asked"));
+            cc.Coding.Add(new Coding("http://hl7.org/fhir/administrative-gender", "female"));
+            cc.Coding.Add(new Coding("http://hl7.org/fhir/administrative-gender", "male"));
 
             var result = val.Validate(cc.ToTypedElement(), vc);
             Assert.True(result.Success);
 
-            cc.Coding.First().Code = "NaNX";
+            cc.Coding.First().Code = "not-human";
             result = val.Validate(cc.ToTypedElement(), vc);
             Assert.True(result.Success);
 
-            cc.Coding.Skip(1).First().Code = "did-ask";
+            cc.Coding.Skip(1).First().Code = "not-a-valid-code";
             result = val.Validate(cc.ToTypedElement(), vc);
             Assert.False(result.Success);
 
@@ -238,7 +238,7 @@ namespace Hl7.Fhir.Specification.Tests
             var val = binding.ToValidatable();
             var vc = new ValidationContext() { TerminologyService = _termService };
 
-            var v = new Money() { Value = 1, Currency = Money.Currencies.EUR };
+            var v = new Money() { Value = 1, Currency = Currencies.EUR };
             var node = v.ToTypedElement();
             Assert.True(val.Validate(node, vc).Success);
         }

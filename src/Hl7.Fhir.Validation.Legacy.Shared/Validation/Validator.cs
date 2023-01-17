@@ -314,6 +314,8 @@ namespace Hl7.Fhir.Validation
         private OperationOutcome validateRegexExtension(IExtendable elementDef, ITypedElement instance, string uri)
         {
             var outcome = new OperationOutcome();
+            const string oldDateTimePattern = @"([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\.[0-9]{1,9})?)?)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?";
+            const string newDateTimePattern = @"([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\.[0-9]{1,9})?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?";
 
             var pattern = elementDef.GetStringExtension(uri);
             if (pattern != null)
@@ -324,6 +326,10 @@ namespace Hl7.Fhir.Validation
                 if ((instance?.InstanceType == FHIRAllTypes.String.GetLiteral() || instance?.InstanceType == FHIRAllTypes.Markdown.GetLiteral()) && pattern == @"[ \r\n\t\S]+")
                 {
                     pattern = @"[\r\n\t\u0020-\uFFFF]*";
+                }
+                else if (instance?.InstanceType == FHIRAllTypes.DateTime.GetLiteral() && pattern == oldDateTimePattern)
+                {
+                    pattern = newDateTimePattern;
                 }
                 var regex = new Regex(pattern);
                 var value = toStringRepresentation(instance);
