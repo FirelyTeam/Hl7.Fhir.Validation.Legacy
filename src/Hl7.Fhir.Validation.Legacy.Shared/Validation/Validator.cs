@@ -313,19 +313,22 @@ namespace Hl7.Fhir.Validation
 
         private OperationOutcome validateRegexExtension(IExtendable elementDef, ITypedElement instance, string uri)
         {
-            var outcome = new OperationOutcome();
+            const string oldMarkdownPattern = @"[ \r\n\t\S]+";
+            const string newMarkdownPattern = @"[\r\n\t\u0020-\uFFFF]*";
             const string oldDateTimePattern = @"([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\.[0-9]{1,9})?)?)?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?";
             const string newDateTimePattern = @"([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\.[0-9]{1,9})?(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?";
 
+            var outcome = new OperationOutcome();
             var pattern = elementDef.GetStringExtension(uri);
             if (pattern != null)
             {
                 // See issue https://github.com/FirelyTeam/firely-net-sdk/issues/1563 and https://hl7.org/fhir/datatypes.html#string 
                 // the regex provided by the Fhir standard is not sufficient enough. The regex [\r\n\t\u0020-\uFFFF]* is more recommended
                 // The regex defined for string also applies to markdown
-                if ((instance?.InstanceType == FHIRAllTypes.String.GetLiteral() || instance?.InstanceType == FHIRAllTypes.Markdown.GetLiteral()) && pattern == @"[ \r\n\t\S]+")
+
+                if ((instance?.InstanceType == FHIRAllTypes.String.GetLiteral() || instance?.InstanceType == FHIRAllTypes.Markdown.GetLiteral()) && pattern == oldMarkdownPattern)
                 {
-                    pattern = @"[\r\n\t\u0020-\uFFFF]*";
+                    pattern = newMarkdownPattern;
                 }
                 else if (instance?.InstanceType == FHIRAllTypes.DateTime.GetLiteral() && pattern == oldDateTimePattern)
                 {

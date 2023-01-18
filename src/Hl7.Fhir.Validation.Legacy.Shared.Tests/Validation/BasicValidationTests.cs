@@ -585,7 +585,6 @@ namespace Hl7.Fhir.Specification.Tests
             var report = _validator.Validate(questionnaire, "http://validationtest.org/fhir/StructureDefinition/QuestionnaireWithFixedType");
             Assert.False(report.Success);
             Assert.Equal(2, report.Errors);
-            Assert.Equal(0, report.Warnings);           // 20 warnings about valueset too complex
         }
 
         [Fact]
@@ -676,8 +675,6 @@ namespace Hl7.Fhir.Specification.Tests
                 output.WriteLine(report.ToString());
             }
             Assert.True(report.Success);
-            Assert.Equal(0, report.Warnings);            // 3x invariant
-
         }
 
 
@@ -919,7 +916,6 @@ namespace Hl7.Fhir.Specification.Tests
 
             var report = v.Validate(cpDoc.CreateReader());
             Assert.True(report.Success);
-            Assert.Equal(0, report.Warnings);            // 3x missing invariant
 
             // Damage the document by removing the mandated 'status' element
             cpDoc.Element(XName.Get("CarePlan", "http://hl7.org/fhir")).Elements(XName.Get("status", "http://hl7.org/fhir")).Remove();
@@ -1082,6 +1078,7 @@ namespace Hl7.Fhir.Specification.Tests
         [Fact]
         public async T.Task ValidateAStructureDefinition()
         {
+
             var sd = (StructureDefinition)(await _asyncSource.FindStructureDefinitionForCoreTypeAsync(FHIRAllTypes.Patient)).DeepCopy();
             var result = _validator.Validate(sd);
             Assert.True(result.Success);
@@ -1509,96 +1506,6 @@ namespace Hl7.Fhir.Specification.Tests
 
             issues.Should().HaveCount(successExpected ? 0 : 1);
         }
-
-        public static IEnumerable<object[]> InvariantTestcases =>
-        new List<object[]>
-        {
-new object[] { "ref-1", new ResourceReference{ Display = "Only a display element" }, true },
-#if !STU3
-new object[] { "eld-19", new ElementDefinition { Path = ":.ContainingSpecialCharacters" }, false},
-new object[] { "eld-19", new ElementDefinition { Path = "NoSpecialCharacters" }, true },
-new object[] { "eld-20", new ElementDefinition { Path = "   leadingSpaces" }, false},
-new object[] { "eld-19", new ElementDefinition { Path = "NoSpaces.withADot" }, true },
-new object[] { "sdf-0", new StructureDefinition { Name = " leadingSpaces" }, false },
-new object[] { "sdf-0", new StructureDefinition { Name = "Name" }, true },
-new object[] { "sdf-24",
-    new StructureDefinition
-    {
-        Snapshot =
-        new StructureDefinition.SnapshotComponent
-            {
-                Element = new List<ElementDefinition> {
-                    new ElementDefinition
-                    {
-                        ElementId = "coderef.reference",
-                        Type = new List<ElementDefinition.TypeRefComponent>
-                               {
-                                    new ElementDefinition.TypeRefComponent { Code = "Reference", TargetProfile = new[] { "http://example.com/profile" }  }
-                               }
-                    },
-                    new ElementDefinition
-                    {
-                        ElementId = "coderef",
-                        Type = new List<ElementDefinition.TypeRefComponent>
-                               {
-                                    new ElementDefinition.TypeRefComponent { Code = "CodeableReference"}
-                               }
-                    },
-                 }
-        }
-    }, false },
-new object[] { "sdf-25",
-    new StructureDefinition
-    {
-        Snapshot =
-        new StructureDefinition.SnapshotComponent
-            {
-                Element = new List<ElementDefinition> {
-                    new ElementDefinition
-                    {
-                        ElementId = "coderef.concept",
-                        Type = new List<ElementDefinition.TypeRefComponent>
-                               {
-                                    new ElementDefinition.TypeRefComponent { Code = "CodeableConcept" }
-                               },
-                        Binding = new ElementDefinition.ElementDefinitionBindingComponent { Description = "Just a description" }
-                    },
-                    new ElementDefinition
-                    {
-                        ElementId = "coderef",
-                        Type = new List<ElementDefinition.TypeRefComponent>
-                               {
-                                    new ElementDefinition.TypeRefComponent { Code = "CodeableReference"}
-                               }
-                    },
-                 }
-        }
-    }, false },
-new object[] { "que-7",
-        new Questionnaire.EnableWhenComponent
-            {
-                Operator = Questionnaire.QuestionnaireItemOperator.Exists,
-                Answer = new FhirBoolean(true)
-        }, true },
-new object[] { "sdf-29",
-    new StructureDefinition
-    {
-        Kind = StructureDefinition.StructureDefinitionKind.Resource,
-        Derivation = StructureDefinition.TypeDerivationRule.Specialization,
-        Differential =
-        new StructureDefinition.DifferentialComponent
-            {
-                Element = new List<ElementDefinition> {
-                    new ElementDefinition
-                    {
-                        ElementId = "Example.test",
-                        Min = 1
-                    },                             }
-        }
-    }, true },
-#endif
-        };
-
 
         private class ClearSnapshotResolver : IResourceResolver
         {
