@@ -31,7 +31,7 @@ namespace Hl7.Fhir.Specification.Tests
             var binding = new ElementDefinition.ElementDefinitionBindingComponent
             {
                 Strength = BindingStrength.Required,
-                ValueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason"
+                ValueSet = "http://hl7.org/fhir/ValueSet/administrative-gender"
             };
 
             var validator = binding.ToValidatable("http://example.org/fhir/StructureDefitition/fhir#text.path");
@@ -41,11 +41,11 @@ namespace Hl7.Fhir.Specification.Tests
             var node = v.ToTypedElement();
             Assert.True(validator.Validate(node, vc).Success);
 
-            v = new Quantity(4.0m, "masked", "http://terminology.hl7.org/CodeSystem/data-absent-reason");  // nonsense, but hey UCUM is not provided with the spec
+            v = new Quantity(4.0m, "male", "http://hl7.org/fhir/administrative-gender");  // nonsense, but hey UCUM is not provided with the spec
             node = v.ToTypedElement();
             Assert.True(validator.Validate(node, vc).Success);
 
-            v = new Quantity(4.0m, "maskedx", "http://terminology.hl7.org/CodeSystem/data-absent-reason");  // nonsense, but hey UCUM is not provided with the spec
+            v = new Quantity(4.0m, "not-human", "http://hl7.org/fhir/administrative-gender");  // nonsense, but hey UCUM is not provided with the spec
             node = v.ToTypedElement();
             Assert.False(validator.Validate(node, vc).Success);
 
@@ -53,20 +53,20 @@ namespace Hl7.Fhir.Specification.Tests
             node = v.ToTypedElement();
             Assert.False(validator.Validate(node, vc).Success);
 
-            v = new FhirString("masked");
+            v = new FhirString("male");
             node = v.ToTypedElement();
             Assert.True(validator.Validate(node, vc).Success);
 
-            v = new FhirString("maskedx");
+            v = new FhirString("not-human");
             node = v.ToTypedElement();
             Assert.False(validator.Validate(node, vc).Success);
 
-            var ic = new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "masked");
+            var ic = new Coding("http://hl7.org/fhir/administrative-gender", "female");
             var ext = new Extension { Value = ic };
             node = ext.ToTypedElement();
             Assert.True(validator.Validate(node, vc).Success);
 
-            ic.Code = "maskedx";
+            ic.Code = "not=human";
             node = ext.ToTypedElement();
             Assert.False(validator.Validate(node, vc).Success);
         }
@@ -75,32 +75,32 @@ namespace Hl7.Fhir.Specification.Tests
         [Fact]
         public void TestCodingValidation()
         {
-            var dar = "http://terminology.hl7.org/CodeSystem/data-absent-reason";
+            var dar = "http://hl7.org/fhir/administrative-gender";
 
             var binding = new ElementDefinition.ElementDefinitionBindingComponent
             {
-                ValueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason",
+                ValueSet = "http://hl7.org/fhir/ValueSet/administrative-gender",
                 Strength = BindingStrength.Required
             };
 
             var val = binding.ToValidatable();
             var vc = new ValidationContext() { TerminologyService = _termService };
 
-            var c = new Coding(dar, "not-a-number");
+            var c = new Coding(dar, "male");
             var result = val.Validate(c.ToTypedElement(), vc);
             Assert.True(result.Success);
 
-            c.Code = "NaNX";
+            c.Code = "not-human";
             result = val.Validate(c.ToTypedElement(), vc);
             Assert.False(result.Success);
 
-            c.Code = "not-a-number";
-            c.Display = "Not a Number (NaN)";
+            c.Code = "male";
+            c.Display = "Male";
             binding.Strength = BindingStrength.Required;
             result = val.Validate(c.ToTypedElement(), vc);
             Assert.True(result.Success);
 
-            c.Display = "Not a NumberX";
+            c.Display = "NotHuman";
             result = val.Validate(c.ToTypedElement(), vc);
             Assert.True(result.Success);        // local terminology service treats incorrect displays as warnings (GH#624)
 
@@ -124,7 +124,7 @@ namespace Hl7.Fhir.Specification.Tests
         {
             var binding = new ElementDefinition.ElementDefinitionBindingComponent
             {
-                ValueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason",
+                ValueSet = "http://hl7.org/fhir/ValueSet/administrative-gender",
                 Strength = BindingStrength.Preferred
             };
 
@@ -154,7 +154,7 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.Contains("None of the Codings in the CodeableConcept were valid for the binding", result.ToString());
 
             // Now, add a third valid code according to the binding.
-            cc.Coding.Add(new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "asked-unknown"));
+            cc.Coding.Add(new Coding("http://hl7.org/fhir/administrative-gender", "male"));
             result = val.Validate(cc.ToTypedElement(), vc);
             Assert.True(result.Success);
         }
@@ -164,7 +164,7 @@ namespace Hl7.Fhir.Specification.Tests
         {
             var binding = new ElementDefinition.ElementDefinitionBindingComponent
             {
-                ValueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason",
+                ValueSet = "http://hl7.org/fhir/ValueSet/administrative-gender",
                 Strength = BindingStrength.Required
             };
 
@@ -172,17 +172,17 @@ namespace Hl7.Fhir.Specification.Tests
             var vc = new ValidationContext() { TerminologyService = _termService };
 
             var cc = new CodeableConcept();
-            cc.Coding.Add(new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "not-a-number"));
-            cc.Coding.Add(new Coding("http://terminology.hl7.org/CodeSystem/data-absent-reason", "not-asked"));
+            cc.Coding.Add(new Coding("http://hl7.org/fhir/administrative-gender", "female"));
+            cc.Coding.Add(new Coding("http://hl7.org/fhir/administrative-gender", "male"));
 
             var result = val.Validate(cc.ToTypedElement(), vc);
             Assert.True(result.Success);
 
-            cc.Coding.First().Code = "NaNX";
+            cc.Coding.First().Code = "not-human";
             result = val.Validate(cc.ToTypedElement(), vc);
             Assert.True(result.Success);
 
-            cc.Coding.Skip(1).First().Code = "did-ask";
+            cc.Coding.Skip(1).First().Code = "not-a-valid-code";
             result = val.Validate(cc.ToTypedElement(), vc);
             Assert.False(result.Success);
 
@@ -238,7 +238,7 @@ namespace Hl7.Fhir.Specification.Tests
             var val = binding.ToValidatable();
             var vc = new ValidationContext() { TerminologyService = _termService };
 
-            var v = new Money() { Value = 1, Currency = Money.Currencies.EUR };
+            var v = new Money() { Value = 1, Currency = Currencies.EUR };
             var node = v.ToTypedElement();
             Assert.True(val.Validate(node, vc).Success);
         }

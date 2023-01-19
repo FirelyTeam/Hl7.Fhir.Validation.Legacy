@@ -61,12 +61,18 @@ namespace Hl7.Fhir.Specification.Tests
             sliceDefs.Should().BeOfType<SliceGroupBucket>().Which.ChildSlices.Length.Should().Be(3);
 
             var sliceGroup = sliceDefs as SliceGroupBucket;
-
+#if R5
+            sliceGroup.ChildSlices[0].Should().Match<DiscriminatorBucket>(s =>
+                    s.Cardinality.Max == "1" &&
+                    s.Name == "Communication.payload:CodeableConcept"
+                  );
+#else
             sliceGroup.ChildSlices[0].Should().Match<DiscriminatorBucket>(s =>
                     s.Cardinality.Max == "1" &&
                     s.Name == "Communication.payload:String"
                   );
 
+#endif
             sliceGroup.ChildSlices[1].Should().Match<DiscriminatorBucket>(s =>
                     s.Cardinality.Max == "20" &&
                     s.Name == "Communication.payload:DocumentReference"

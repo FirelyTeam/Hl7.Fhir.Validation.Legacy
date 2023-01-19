@@ -77,6 +77,10 @@ namespace Hl7.Fhir.Validation
                     // correct datatype in expression:
                     { Key: "que-7", Expression: @"operator = 'exists' implies (answer is Boolean)" }
                                              => @"operator = 'exists' implies (answer is boolean)",
+
+                    // correct sdf-29 (see also https://jira.hl7.org/browse/FHIR-39166) :
+                    { Key: "sdf-29", Expression: @"((kind in 'resource' | 'complex-type') and (specialization = 'derivation')) implies differential.element.where((min != 0 and min != 1) or (max != '1' and max != '*')).empty()" }
+                                              => @"((kind in 'resource' | 'complex-type') and (derivation = 'specialization')) implies differential.element.where((min != 0 and min != 1) or (max != '1' and max != '*')).empty()",
                     var ce => ce.Expression
                 };
 
