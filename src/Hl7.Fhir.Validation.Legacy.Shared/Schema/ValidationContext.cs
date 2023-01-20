@@ -13,7 +13,5 @@ namespace Hl7.Fhir.Specification.Schema
     internal class ValidationContext
     {
         public ITerminologyService TerminologyService;
-
-        // TODO BIG_COMMON   public IExceptionSource ExceptionSink;
     }
 }
