@@ -1537,6 +1537,19 @@ namespace Hl7.Fhir.Specification.Tests
             }
         }
 
+        /// <summary>
+        /// See also issue: https://github.com/FirelyTeam/firely-net-sdk/issues/2375
+        /// </summary>
+        [Theory]
+        [InlineData("{\"resourceType\": \"Patient\",\"maritalStatus\": {\"coding\":[{\"code\": \"T\",\"system\": \"http://hl7.org/fhir/v3/MaritalStatus\"} ]}}")]
+        [InlineData("{\"resourceType\": \"Patient\",\"maritalStatus\": {\"coding\":[{\"system\": \"http://hl7.org/fhir/v3/MaritalStatus\",\"code\": \"T\"} ]}}")]
+        public void OrderOfCodingIsNotImportant(string json)
+        {
+            var patientNode = FhirJsonNode.Parse(json);
+            var patient = patientNode.ToTypedElement(ModelInfo.ModelInspector);
+            var report = _validator.Validate(patient, "http://validationtest.org/fhir/StructureDefinition/PatientFixedMaritalStatus");
+            report.Success.Should().BeTrue();
+        }
     }
 
     internal class InMemoryResourceResolver : IResourceResolver
