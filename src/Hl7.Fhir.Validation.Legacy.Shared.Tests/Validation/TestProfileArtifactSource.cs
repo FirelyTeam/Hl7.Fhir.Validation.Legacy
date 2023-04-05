@@ -54,7 +54,9 @@ namespace Hl7.Fhir.Specification.Tests
             buildPatientWithDeceasedConstraints(),
             buildBoolean(),
             buildMyExtension(),
+            buildPatientWithFixedMaritalStatus()
         }.AddM(buildPatientWithProfiledReferences());
+
 
         private static StructureDefinition buildObservationWithTargetProfilesAndChildDefs()
         {
@@ -667,5 +669,19 @@ namespace Hl7.Fhir.Specification.Tests
             cons.Add(new ElementDefinition("Patient.managingOrganization").OfReference(PROFILED_ORG_URL));
             yield return result;
         }
+
+        private static StructureDefinition buildPatientWithFixedMaritalStatus()
+        {
+            var result = createTestSD("http://validationtest.org/fhir/StructureDefinition/PatientFixedMaritalStatus",
+                "Patient with Maritalstatus",
+                "Test Patient with a fixed marital status", FHIRAllTypes.Patient);
+            var cons = result.Differential.Element;
+
+            cons.Add(new ElementDefinition("Patient").OfType(FHIRAllTypes.Patient));
+            cons.Add(new ElementDefinition("Patient.maritalStatus")
+                .Value(fix: new CodeableConcept(system: "http://hl7.org/fhir/v3/MaritalStatus", code: "T")));
+            return result;
+        }
+
     }
 }
