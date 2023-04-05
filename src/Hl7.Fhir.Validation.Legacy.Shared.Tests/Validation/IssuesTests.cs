@@ -32,7 +32,7 @@ namespace Hl7.Fhir.Specification.Tests
             var pat = await new FhirJsonParser().ParseAsync<Patient>(json);
 
             var report = validator.Validate(pat);
-            Assert.IsTrue(report.Success);
+            Assert.IsTrue(report.Success, report.ToString());
         }
 
 
