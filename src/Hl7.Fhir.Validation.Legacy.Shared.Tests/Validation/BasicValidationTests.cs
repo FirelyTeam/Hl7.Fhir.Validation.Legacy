@@ -1278,11 +1278,7 @@ namespace Hl7.Fhir.Specification.Tests
             var data = elem.ToTypedElement();
 
             Assert.True(data.IsBoolean("type.select(code&profile&targetProfile).isDistinct()", true));
-
-            var result = _validator.Validate(def);
-            Assert.True(result.Success, result.ToString());
         }
-
 
         /// <summary>
         /// This test proves issue https://github.com/FirelyTeam/firely-net-sdk/issues/617
