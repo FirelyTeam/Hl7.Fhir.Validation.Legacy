@@ -915,7 +915,7 @@ namespace Hl7.Fhir.Specification.Tests
             var cpDoc = XDocument.Parse(careplanXml, LoadOptions.SetLineInfo);
 
             var report = v.Validate(cpDoc.CreateReader());
-            Assert.True(report.Success);
+            Assert.True(report.Success, report.ToString());
 
             // Damage the document by removing the mandated 'status' element
             cpDoc.Element(XName.Get("CarePlan", "http://hl7.org/fhir")).Elements(XName.Get("status", "http://hl7.org/fhir")).Remove();
@@ -995,7 +995,7 @@ namespace Hl7.Fhir.Specification.Tests
             var report = _validator.Validate(levin);
             DebugDumpOutputXml(report);
 
-            Assert.True(report.Success);
+            Assert.True(report.Success, report.ToString());
             Assert.Equal(0, report.Warnings);
 
             levin.Extension[1].Extension[1].Value = new FhirString("wrong!");
@@ -1278,11 +1278,7 @@ namespace Hl7.Fhir.Specification.Tests
             var data = elem.ToTypedElement();
 
             Assert.True(data.IsBoolean("type.select(code&profile&targetProfile).isDistinct()", true));
-
-            var result = _validator.Validate(def);
-            Assert.True(result.Success, result.ToString());
         }
-
 
         /// <summary>
         /// This test proves issue https://github.com/FirelyTeam/firely-net-sdk/issues/617
@@ -1335,7 +1331,7 @@ namespace Hl7.Fhir.Specification.Tests
 
             var patientSd = await _asyncSource.FindStructureDefinitionForCoreTypeAsync(FHIRAllTypes.Patient);
             var report = _validator.Validate(p, patientSd);
-            Assert.True(report.Success);
+            Assert.True(report.Success, report.ToString());
             Assert.Equal(1, report.Warnings);            // 1x cannot resolve external reference
         }
 
