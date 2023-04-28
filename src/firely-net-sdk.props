@@ -6,7 +6,7 @@
 
 	<!-- Solution-wide properties for NuGet packaging -->
 	<PropertyGroup>
-		<VersionPrefix>5.1.0</VersionPrefix>
+		<VersionPrefix>5.1.1</VersionPrefix>
 		<VersionSuffix></VersionSuffix>
 		<Authors>Firely (info@fire.ly) and contributors</Authors>
 		<Company>Firely (https://fire.ly)</Company>
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<FirelySdkVersion>5.1.0</FirelySdkVersion>
+		<FirelySdkVersion>5.*-*</FirelySdkVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
