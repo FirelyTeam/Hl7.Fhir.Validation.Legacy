@@ -212,7 +212,7 @@ namespace Hl7.Fhir.Specification.Tests
             var result = val.Validate(cc.ToTypedElement(), vc);
             Assert.False(result.Success);
             Assert.True(result.Issue.Count == 1);
-            Assert.StartsWith("Code '01.015' from system 'http://non-existing.code.system' does not exist in valueset 'http://hl7.org/fhir/ValueSet/address-type'", result.Issue[0].Details.Text);
+            Assert.StartsWith("Code '01.015' from system 'http://non-existing.code.system' does not exist in the value set 'AddressType' (http://hl7.org/fhir/ValueSet/address-type)", result.Issue[0].Details.Text);
 
             cc.Coding.Add(new Coding("http://another-non-existing.code.system", "01.016"));
             result = val.Validate(cc.ToTypedElement(), vc);
@@ -220,8 +220,8 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.True(result.Issue.Count == 1);
             result.Issue[0].Details.Text.Should().StartWith(
                 $"None of the Codings in the CodeableConcept were valid for the binding. Details follow.{System.Environment.NewLine}" +
-                $"Code '01.015' from system 'http://non-existing.code.system' does not exist in valueset 'http://hl7.org/fhir/ValueSet/address-type'{System.Environment.NewLine}" +
-                 "Code '01.016' from system 'http://another-non-existing.code.system' does not exist in valueset 'http://hl7.org/fhir/ValueSet/address-type'");
+                $"Code '01.015' from system 'http://non-existing.code.system' does not exist in the value set 'AddressType' (http://hl7.org/fhir/ValueSet/address-type){System.Environment.NewLine}" +
+                 "Code '01.016' from system 'http://another-non-existing.code.system' does not exist in the value set 'AddressType' (http://hl7.org/fhir/ValueSet/address-type)");
 
         }
 
