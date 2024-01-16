@@ -6,8 +6,8 @@
 
 	<!-- Solution-wide properties for NuGet packaging -->
 	<PropertyGroup>
-		<VersionPrefix>5.3.1</VersionPrefix>
-		<VersionSuffix>alpha</VersionSuffix>
+		<VersionPrefix>5.5.1</VersionPrefix>
+		<VersionSuffix></VersionSuffix>
 		<Authors>Firely (info@fire.ly) and contributors</Authors>
 		<Company>Firely (https://fire.ly)</Company>
 		<Copyright>Copyright 2013-2023 Firely.  Contains materials (C) HL7 International</Copyright>
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<FirelySdkVersion>5.3.0</FirelySdkVersion>
+		<FirelySdkVersion>5.5.1</FirelySdkVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -38,7 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
 	</ItemGroup>
 	
 	<!-- Compiler settings -->
