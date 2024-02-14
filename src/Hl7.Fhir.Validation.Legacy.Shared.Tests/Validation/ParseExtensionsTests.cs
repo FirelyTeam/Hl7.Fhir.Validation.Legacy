@@ -108,7 +108,7 @@ namespace Hl7.Fhir.Validation
         {
             var i = new Model.CodeableReference
             {
-                Reference = new("http://example.org"),
+                Reference = new("http://unitsofmeasure.org"),
                 Concept = new CodeableConcept
                 {
                     Text = "Entered text"
@@ -118,10 +118,11 @@ namespace Hl7.Fhir.Validation
                new Coding("system", "code"));
 
             var node = i.ToTypedElement();
-            var c = node.ParseBindable() as CodeableReference;
-            Assert.NotNull(c);
-            Assert.Equal(i.Concept.Coding[0].Code, i.Concept.Coding[0].Code);
-            Assert.Equal("http://unitsofmeasure.org", i.Concept.Coding[0].System);
+            var c = node.ParseBindable() as CodeableConcept;
+
+            Assert.NotNull(node);
+            Assert.Equal(i.Concept.Coding[0].Code, c.Coding[0].Code);
+            Assert.Equal("system", c.Coding[0].System);
         }
 
         [Fact]
