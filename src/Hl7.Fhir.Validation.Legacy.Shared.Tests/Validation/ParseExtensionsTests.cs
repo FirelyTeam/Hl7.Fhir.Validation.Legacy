@@ -109,7 +109,7 @@ namespace Hl7.Fhir.Validation
             Assert.NotNull(c);
             Assert.Equal(iu.Value, c.Value);
         }
-
+        
         [Fact]
         public void TestParseBindableExtension()
         {
