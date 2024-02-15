@@ -1,12 +1,5 @@
 ﻿using Hl7.Fhir.ElementModel;
-using Hl7.Fhir.FhirPath;
 using Hl7.Fhir.Model;
-using Hl7.FhirPath;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Hl7.Fhir.Validation
@@ -111,6 +104,28 @@ namespace Hl7.Fhir.Validation
         }
         
         [Fact]
+        public void TestParseBindableCodeableReference()
+        {
+            var i = new Model.CodeableReference
+            {
+                Reference = new("http://unitsofmeasure.org"),
+                Concept = new CodeableConcept
+                {
+                    Text = "Entered text"
+                }
+            };
+            i.Concept.Coding.Add(
+               new Coding("system", "code"));
+
+            var node = i.ToTypedElement();
+            var c = node.ParseBindable() as CodeableConcept;
+
+            Assert.NotNull(node);
+            Assert.Equal(i.Concept.Coding[0].Code, c.Coding[0].Code);
+            Assert.Equal("system", c.Coding[0].System);
+        }
+
+        [Fact]
         public void TestParseBindableExtension()
         {
             var ic = new Coding("system", "code");
@@ -133,7 +148,7 @@ namespace Hl7.Fhir.Validation
 
         [Fact]
         public void TestParseUnbindable()
-        { 
+        {
             // Now, something non-bindable
             var x = new HumanName().WithGiven("Ewout");
             var node = x.ToTypedElement();
