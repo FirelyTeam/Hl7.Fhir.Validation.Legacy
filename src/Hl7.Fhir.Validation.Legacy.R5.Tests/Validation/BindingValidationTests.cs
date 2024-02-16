@@ -47,7 +47,8 @@ namespace Hl7.Fhir.Specification.Tests
 
             v = new Quantity(4.0m, "not-human", "http://hl7.org/fhir/administrative-gender");  // nonsense, but hey UCUM is not provided with the spec
             node = v.ToTypedElement();
-            Assert.False(validator.Validate(node, vc).Success);
+            var r = validator.Validate(node, vc);
+            Assert.False(r.Success);
 
             v = new Quantity(4.0m, "kg");  // sorry, UCUM is not provided with the spec - still validate against data-absent-reason
             node = v.ToTypedElement();
@@ -69,6 +70,27 @@ namespace Hl7.Fhir.Specification.Tests
             ic.Code = "not=human";
             node = ext.ToTypedElement();
             Assert.False(validator.Validate(node, vc).Success);
+            
+            var cr1 = new CodeableReference
+            {
+                Concept = new CodeableConcept("http://hl7.org/fhir/administrative-gender", "female")
+            }.ToTypedElement();
+            
+            validator.Validate(cr1, vc).Success.Should().BeTrue();
+            
+            var cr2 = new CodeableReference
+            {
+                Concept = new CodeableConcept("http://hl7.org/fhir/administrative-gender", "femaleX")
+            }.ToTypedElement();
+            
+            validator.Validate(cr2, vc).Success.Should().BeFalse();
+
+            var cr3 = new CodeableReference
+            {
+                Reference = new ResourceReference("http://some.uri")
+            }.ToTypedElement();
+            
+            validator.Validate(cr3, vc).Success.Should().BeTrue();
         }
 
 
@@ -194,6 +216,8 @@ namespace Hl7.Fhir.Specification.Tests
             Assert.Equal(0, result.Warnings);
         }
 
+        
+        
         [Fact]
         public void TestValidationErrorMessageForCodings()
         {

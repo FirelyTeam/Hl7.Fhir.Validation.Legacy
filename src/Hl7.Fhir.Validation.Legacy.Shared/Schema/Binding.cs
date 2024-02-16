@@ -91,20 +91,19 @@ namespace Hl7.Fhir.Specification.Schema
             if (!ModelInfo.IsBindable(input.InstanceType))
                 return new OperationOutcome();  // success
 
-            var bindable = parseBindable(input);
+            var bindable = input.ParseBindable();
+
+            if (bindable is null)
+            {
+                // When there is no bindable content, the binding is not applicable to the instance, and we will
+                // just return a successful result.
+                return new OperationOutcome();
+            }
+            
             var outcome = VerifyContentRequirements(input, bindable);
             if (!outcome.Success) return outcome;
 
             return TaskHelper.Await(() => ValidateCode(input, bindable, vc));
-        }
-
-        private static Element parseBindable(ITypedElement input)
-        {
-            var bindable = input.ParseBindable();
-            if (bindable == null)    // should never happen, since we already checked IsBindable
-                throw Error.NotSupported($"Type '{input.InstanceType}' is bindable, but could not be parsed by ParseBindable().");
-
-            return bindable;
         }
 
         internal async Task<OperationOutcome> ValidateCode(ITypedElement source, Element bindable, ValidationContext vc)
