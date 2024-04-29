@@ -6,8 +6,8 @@
 
 	<!-- Solution-wide properties for NuGet packaging -->
 	<PropertyGroup>
-		<VersionPrefix>5.6.1</VersionPrefix>
-		<VersionSuffix>alpha</VersionSuffix>
+		<VersionPrefix>5.7.0</VersionPrefix>
+		<VersionSuffix></VersionSuffix>
 		<Authors>Firely (info@fire.ly) and contributors</Authors>
 		<Company>Firely (https://fire.ly)</Company>
 		<Copyright>Copyright 2013-2023 Firely.  Contains materials (C) HL7 International</Copyright>
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<FirelySdkVersion>5.8.0</FirelySdkVersion>
+		<FirelySdkVersion>5.7.0</FirelySdkVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
