@@ -41,7 +41,6 @@ working/
 *.vssscc
 .builds
 *.pidb
-*.log
 *.scc
 
 # Visual C++ cache files
@@ -165,3 +164,5 @@ src/.vs/
 build/runbuild.txt
 
 dist/
+/.idea/.idea.Hl7.Fhir.Validation.Legacy/.idea/indexLayout.xml
+/.idea/.idea.Hl7.Fhir.Validation.Legacy/.idea/workspace.xml
